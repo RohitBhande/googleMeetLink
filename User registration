@@ -1,3 +1,19 @@
+@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+		System.out.println("Request "+request);//@149006e3
+		System.out.println(request.getHeader(ALREADY_FILTERED_SUFFIX));
+		String requestToken = request.getHeader("Authorization");
+		
+
+
+
+
+
+
+
+
+
 @RestController
 public class UserController {
 
