@@ -1,1 +1,66 @@
 
+@RestController
+@RequestMapping("/api/auth")
+public class AuthController {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @GetMapping("/login")
+    public ResponseEntity<String> login(@RequestHeader("Authorization") String authHeader) {
+        // Extract the base64 encoded username and password from the Authorization header
+        String base64Credentials = authHeader.substring("Basic".length()).trim();
+        String credentials = new String(Base64.getDecoder().decode(base64Credentials));
+
+        // Split the username and password
+        String[] parts = credentials.split(":", 2);
+        String username = parts[0];
+        String password = parts[1];
+
+        // Retrieve the user from the database using the provided username
+        User user = userRepository.findByUsername(username);
+
+        if (user == null) {
+            // User not found
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+
+        if (!password.equals(user.getPassword())) {
+            // Invalid password
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+
+        // Authentication successful
+        return ResponseEntity.ok("Authentication successful");
+    }
+}
+
+
+
+
+
+@Configuration
+
+@EnableWebSecurity
+
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Override
+
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http
+
+            .authorizeRequests()
+
+                .antMatchers("/api/auth/login").permitAll()
+
+                .anyRequest().authenticated()
+
+                .and()
+
+            .httpBasic();
+
+    }
+
+}
