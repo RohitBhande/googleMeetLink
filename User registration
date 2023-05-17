@@ -1,3 +1,126 @@
+import React, { createContext, useState } from 'react';
+
+export const UserContext = createContext();
+
+export const UserProvider = ({ children }) => {
+
+  const [username, setUsername] = useState('');
+
+  return (
+
+    <UserContext.Provider value={{ username, setUsername }}>
+
+      {children}
+
+    </UserContext.Provider>
+
+  );
+
+};
+
+
+import React, { useState, useContext } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+
+import { UserContext } from './UserContext';
+
+function LoginPage() {
+
+  const { setUsername } = useContext(UserContext);
+
+  const navigate = useNavigate();
+
+  const [usernameInput, setUsernameInput] = useState('');
+
+  const handleLogin = () => {
+
+    // Perform login logic
+
+    // ...
+
+    // Update the username in the user context
+
+    setUsername(usernameInput);
+
+    // Redirect to the register page
+
+    navigate('/register');
+
+  };
+
+  return (
+
+    <div>
+
+      <h1>Login Page</h1>
+
+      <input
+
+        type="text"
+
+        placeholder="Username"
+
+        value={usernameInput}
+
+        onChange={(e) => setUsernameInput(e.target.value)}
+
+      />
+
+      <button onClick={handleLogin}>Login</button>
+
+    </div>
+
+  );
+
+}
+
+export default LoginPage;
+
+
+import React, { useContext } from 'react';
+
+import { UserContext } from './UserContext';
+
+function RegisterPage() {
+
+  const { username } = useContext(UserContext);
+
+  return (
+
+    <div>
+
+      <h1>Register Page</h1>
+
+      <p>Welcome, {username}!</p>
+
+      {/* Other registration form elements */}
+
+    </div>
+
+  );
+
+}
+
+export default RegisterPage;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 import React, { useState } from 'react';
 
