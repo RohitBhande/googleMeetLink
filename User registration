@@ -22,6 +22,119 @@ const ScrollButton = () => {
 
     if (section) {
 
+      const sectionRect = section.getBoundingClientRect();
+
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      const middleOffset = sectionRect.top + scrollTop + sectionRect.height / 2 - window.innerHeight / 2;
+
+      window.scrollTo({
+
+        top: middleOffset,
+
+        behavior: 'smooth'
+
+      });
+
+    }
+
+  };
+
+  const scrollToBottom = () => {
+
+    const section = sectionRef.current;
+
+    if (section) {
+
+      const sectionRect = section.getBoundingClientRect();
+
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      const bottomOffset = sectionRect.top + scrollTop + sectionRect.height;
+
+      window.scrollTo({
+
+        top: bottomOffset,
+
+        behavior: 'smooth'
+
+      });
+
+    }
+
+  };
+
+  return (
+
+    <div>
+
+      <button onClick={scrollToTop}>
+
+        Scroll to Top
+
+      </button>
+
+      <button onClick={scrollToMiddle}>
+
+        Scroll to Middle
+
+      </button>
+
+      <button onClick={scrollToBottom}>
+
+        Scroll to Bottom
+
+      </button>
+
+      <div ref={sectionRef} style={{ height: '200vh', background: 'lightgray' }}>
+
+        {/* Section Content */}
+
+      </div>
+
+    </div>
+
+  );
+
+};
+
+export default ScrollButton;
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useRef } from 'react';
+
+const ScrollButton = () => {
+
+  const sectionRef = useRef(null);
+
+  const scrollToTop = () => {
+
+    window.scrollTo({
+
+      top: 0,
+
+      behavior: 'smooth'
+
+    });
+
+  };
+
+  const scrollToMiddle = () => {
+
+    const section = sectionRef.current;
+
+    if (section) {
+
       const sectionHeight = section.getBoundingClientRect().height;
 
       const windowHeight = window.innerHeight;
