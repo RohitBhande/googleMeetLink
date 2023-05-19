@@ -1,3 +1,109 @@
+import React, { useRef } from 'react';
+
+const ScrollButton = () => {
+
+  const sectionRef = useRef(null);
+
+  const scrollToTop = () => {
+
+    window.scrollTo({
+
+      top: 0,
+
+      behavior: 'smooth'
+
+    });
+
+  };
+
+  const scrollToMiddle = () => {
+
+    const section = sectionRef.current;
+
+    if (section) {
+
+      const sectionHeight = section.getBoundingClientRect().height;
+
+      const windowHeight = window.innerHeight;
+
+      const middleOffset = (sectionHeight - windowHeight) / 2;
+
+      window.scrollTo({
+
+        top: section.offsetTop + middleOffset,
+
+        behavior: 'smooth'
+
+      });
+
+    }
+
+  };
+
+  const scrollToBottom = () => {
+
+    const section = sectionRef.current;
+
+    if (section) {
+
+      const sectionHeight = section.getBoundingClientRect().height;
+
+      window.scrollTo({
+
+        top: section.offsetTop + sectionHeight,
+
+        behavior: 'smooth'
+
+      });
+
+    }
+
+  };
+
+  return (
+
+    <div>
+
+      <button onClick={scrollToTop}>
+
+        Scroll to Top
+
+      </button>
+
+      <button onClick={scrollToMiddle}>
+
+        Scroll to Middle
+
+      </button>
+
+      <button onClick={scrollToBottom}>
+
+        Scroll to Bottom
+
+      </button>
+
+      <div ref={sectionRef} style={{ height: '100vh', background: 'lightgray' }}>
+
+        {/* Section Content */}
+
+      </div>
+
+    </div>
+
+  );
+
+};
+
+export default ScrollButton;
+
+
+
+
+
+
+
+
+
 import React from 'react';
 
 class ScrollButton extends React.Component {
