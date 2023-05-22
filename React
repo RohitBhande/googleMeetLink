@@ -1,3 +1,63 @@
+import React, { useEffect, useState } from 'react';
+
+import axios from 'axios';
+
+const SchoolCard = ({ school }) => {
+
+  return (
+
+    <div className="card">
+
+      <h2>{school.name}</h2>
+
+      <p>Location: {school.location}</p>
+
+    </div>
+
+  );
+
+};
+
+const App = () => {
+
+  const [schools, setSchools] = useState([]);
+
+  useEffect(() => {
+
+    axios
+
+      .get('/api/schools')
+
+      .then(response => setSchools(response.data))
+
+      .catch(error => console.log(error));
+
+  }, []);
+
+  return (
+
+    <div>
+
+      {schools.map(school => (
+
+        <SchoolCard key={school.id} school={school} />
+
+      ))}
+
+    </div>
+
+  );
+
+};
+
+export default App;
+
+
+
+
+
+
+
 import React, { useState, useEffect } from 'react';
 
 import axios from 'axios';
