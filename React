@@ -1,0 +1,59 @@
+import React, { useState } from 'react';
+
+const PasswordInput = () => {
+  const [password, setPassword] = useState('');
+  const [isValid, setIsValid] = useState(true);
+  const [errors, setErrors] = useState([]);
+
+  const handlePasswordChange = (event) => {
+    const newPassword = event.target.value;
+    setPassword(newPassword);
+    validatePassword(newPassword);
+  };
+
+  const validatePassword = (password) => {
+    const errors = [];
+
+    if (password.length < 8) {
+      errors.push('Password must be at least 8 characters long.');
+    }
+
+    if (!/\d/.test(password)) {
+      errors.push('Password must contain at least one digit.');
+    }
+
+    if (!/[a-z]/.test(password)) {
+      errors.push('Password must contain at least one lowercase letter.');
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      errors.push('Password must contain at least one uppercase letter.');
+    }
+
+    if (!/[^a-zA-Z\d]/.test(password)) {
+      errors.push('Password must contain at least one special character.');
+    }
+
+    setErrors(errors);
+    setIsValid(errors.length === 0);
+  };
+
+  return (
+    <div>
+      <input
+        type="password"
+        value={password}
+        onChange={handlePasswordChange}
+      />
+      {!isValid && (
+        <ul>
+          {errors.map((error, index) => (
+            <li key={index}>{error}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+
+export default PasswordInput;
