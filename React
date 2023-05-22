@@ -1,3 +1,60 @@
+import React, { useState, useEffect } from 'react';
+
+import axios from 'axios';
+
+const ParentComponent = ({ email }) => {
+
+  const [requestData, setRequestData] = useState(null);
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+
+      try {
+
+        const response = await axios.get(`https://example.com/api/endpoint?email=${email}`);
+
+        setRequestData(response.data);
+
+      } catch (error) {
+
+        console.error('Error:', error);
+
+      } finally {
+
+        setIsLoading(false);
+
+      }
+
+    };
+
+    fetchData();
+
+  }, [email]);
+
+  if (isLoading) {
+
+    return <div>Loading...</div>;
+
+  }
+
+  if (!requestData) {
+
+    return <AnotherComponent />;
+
+  }
+
+  return <SpecificComponent data={requestData} />;
+
+};
+
+export default ParentComponent;
+
+
+
+
 this example, the ParentComponent receives the email as a prop, which is the email received after a successful login. The email prop is then used in the Axios GET request by including it as a query parameter in the URL.
 
 The useEffect hook has the email prop added to its dependency array, ensuring that the effect is triggered whenever the email prop changes.
