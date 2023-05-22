@@ -55,17 +55,17 @@ export default ParentComponent;
 
 
 
-this example, the ParentComponent receives the email as a prop, which is the email received after a successful login. The email prop is then used in the Axios GET request by including it as a query parameter in the URL.
+this example, the ParentComponent receives the email as a prop, which is the email received after a successful login. 
+The email prop is then used in the Axios GET request by including it as a query parameter in the URL.
 
-The useEffect hook has the email prop added to its dependency array, ensuring that the effect is triggered whenever the email prop changes.
+The useEffect hook has the email prop added to its dependency array, ensuring that the effect is triggered whenever the email prop 
+changes.
 
-The rest of the code remains the same, where the loading state is managed, and the rendering is performed based on the response data or lack thereof.
+The rest of the code remains the same, where the loading state is managed, and the rendering is performed based 
+on the response data or lack thereof.
 
 When using the ParentComponent, make sure to pass the email prop with the appropriate value:
 
-jsx
-
-Copy code
 
 <ParentComponent email={loggedInUserEmail} />
 
