@@ -1,3 +1,55 @@
+import React, { useState, useEffect } from 'react';
+
+const MyComponent = () => {
+
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+
+    if (message) {
+
+      const timer = setTimeout(() => {
+
+        setMessage('');
+
+      }, 5000);
+
+      return () => {
+
+        clearTimeout(timer);
+
+      };
+
+    }
+
+  }, [message]);
+
+  const handleClick = () => {
+
+    setMessage('This message will disappear after 5 seconds.');
+
+  };
+
+  return (
+
+    <div>
+
+      <button onClick={handleClick}>Show Message</button>
+
+      {message && <p>{message}</p>}
+
+    </div>
+
+  );
+
+};
+
+export default MyComponent;
+
+
+
+
+
 import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
