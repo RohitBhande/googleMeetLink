@@ -1,3 +1,34 @@
+import java.time.ZoneId;
+
+import java.time.format.DateTimeFormatter;
+
+import java.util.Date;
+
+private static String getFormattedDate(String time) {
+
+    LocalDateTime localDateTime = LocalDateTime.parse(time, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+    Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+
+    Date date = Date.from(instant);
+
+    // Format the date to the desired format
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+    return formatter.format(date.toInstant());
+
+}
+
+
+
+
+
+
+
+
+
+
 create google meet link after button click using react js axios and spring boot
 
 To create a Google Meet link after a button click using React.js, Axios, and Spring Boot, you can follow the steps below:
