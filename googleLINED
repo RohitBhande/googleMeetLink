@@ -1,3 +1,27 @@
+import com.google.api.client.json.jackson2.JacksonFactory;
+
+private static Calendar getCalendarService() throws IOException {
+
+    // Initialize the Google Calendar API client
+
+    NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+
+    GoogleCredential credential = GoogleCredential.fromStream(new FileInputStream("credentials.json"))
+
+            .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
+
+    Calendar service = new Calendar.Builder(httpTransport, JacksonFactory.getDefaultInstance(), credential).build();
+
+    return service;
+
+}
+
+
+
+
+
+
+
 import java.time.ZoneId;
 
 import java.time.format.DateTimeFormatter;
