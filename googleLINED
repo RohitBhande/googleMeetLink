@@ -1,3 +1,78 @@
+public static String generateMeetLink(String startTime) throws IOException {
+
+    // Initialize the Google Calendar service
+
+    Calendar service = getCalendarService();
+
+    // Create a new event with the given start time
+
+    Event event = new Event();
+
+    event.setSummary("Meeting");
+
+    event.setLocation("Online");
+
+    DateTime startDateTime = new DateTime(getFormattedDate(startTime));
+
+    EventDateTime start = new EventDateTime().setDateTime(startDateTime).setTimeZone("Asia/Kolkata");
+
+    event.setStart(start);
+
+    // Add one hour to the start time for the end time
+
+    DateTime endDateTime = startDateTime.plusHours(1);
+
+    EventDateTime end = new EventDateTime().setDateTime(endDateTime).setTimeZone("Asia/Kolkata");
+
+    event.setEnd(end);
+
+    // Set up the Google Meet conference details
+
+    ConferenceData conferenceData = new ConferenceData();
+
+    CreateConferenceRequest createConferenceRequest = new CreateConferenceRequest();
+
+    ConferenceSolutionKey conferenceSolutionKey = new ConferenceSolutionKey()
+
+            .setType("hangoutsMeet");
+
+    createConferenceRequest.setRequestId("123456789");
+
+    createConferenceRequest.setConferenceSolutionKey(conferenceSolutionKey);
+
+    conferenceData.setCreateRequest(createConferenceRequest);
+
+    event.setConferenceData(conferenceData);
+
+    // Insert the event
+
+    event = service.events().insert("primary", event).execute();
+
+    // Generate the Meet link
+
+    String meetLink = event.getHangoutLink();
+
+    return meetLink;
+
+}
+
+private static String getFormattedDate(String time) {
+
+    LocalDateTime localDateTime = LocalDateTime.parse(time, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+    Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+
+    Date date = Date.from(instant);
+
+    return DateTimeFormat.formatRfc3339(date);
+
+}
+
+
+
+
+
+
 import com.google.api.client.json.jackson2.JacksonFactory;
 
 private static Calendar getCalendarService() throws IOException {
