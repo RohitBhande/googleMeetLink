@@ -411,3 +411,21 @@ update the meetLink state with the response data. Finally, we added a conditiona
 as a clickable link that opens in a new tab.
 That's it! Now when the user enters a start time and clicks the "Generate Meet Link" button, the frontend will make a request to the 
 backend /meet-link endpoint to generate a Google Meet link, and display the link to the user.
+
+
+
+
+
+
+
+private static String getFormattedDate(String time) {
+
+    LocalDateTime localDateTime = LocalDateTime.parse(time, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+    Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+
+    Date date = Date.from(instant);
+
+    return DateTimeFormat.formatRfc3339(date);
+
+}
