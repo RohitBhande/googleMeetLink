@@ -1,3 +1,152 @@
+package com.org.application.googleMeet;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
+import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.CalendarScopes;
+import com.google.api.services.calendar.model.ConferenceData;
+import com.google.api.services.calendar.model.ConferenceSolutionKey;
+import com.google.api.services.calendar.model.CreateConferenceRequest;
+import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.EventDateTime;
+
+public class MeetLinkGenerator {
+
+	public static String generateMeetLink(String startTime) throws IOException {
+
+		
+		
+		System.out.println(startTime);
+		// Initialize the Google Calendar service
+		Calendar service = getCalendarService();
+		// Create a new event with the given start time
+		Event event = new Event();
+		event.setSummary("Meeting");
+		event.setLocation("Online");
+		DateTime startDateTime = new DateTime(getFormattedDate(startTime));
+		EventDateTime start = new EventDateTime().setDateTime(startDateTime).setTimeZone("Asia/Kolkata");
+		event.setStart(start);
+		// Add one hour to the start time for the end time
+		DateTime endDateTime = startDateTime;
+		EventDateTime end = new EventDateTime().setDateTime(endDateTime).setTimeZone("Asia/Kolkata");
+		event.setEnd(end);
+
+		// Set up the Google Meet conference details
+		ConferenceData objConferenceData = new ConferenceData();
+		CreateConferenceRequest createConferenceRequest = new CreateConferenceRequest();
+		ConferenceSolutionKey conferenceSolutionKey = new ConferenceSolutionKey().setType("hangoutsMeet");
+
+		createConferenceRequest.setRequestId("123456789");
+
+		createConferenceRequest.setConferenceSolutionKey(conferenceSolutionKey);
+		objConferenceData.setCreateRequest(createConferenceRequest);
+		event.setConferenceData(objConferenceData);
+
+		// Insert the event
+		event = service.events().insert("primary", event).execute();
+
+		// Generate the Meet link
+		String meetLink = event.getHangoutLink();
+		return meetLink;
+	}
+
+	private static String getFormattedDate(String time) {
+
+
+		LocalDateTime localDateTime = LocalDateTime.parse(time, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+		Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+		Date date = Date.from(instant);
+
+		// Format Date as RFC 3339 compliant string
+		DateTimeFormatter rfc3339Formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+		String formattedDate = rfc3339Formatter.format(instant);
+
+		return formattedDate;
+		
+		
+//		LocalDateTime localDateTime = LocalDateTime.parse(time, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+//		Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+//		Date date = Date.from(instant);
+//		// Format the date to the desired format
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+//		
+//		return formatter;//.format(date.toInstant());
+
+	}
+
+	private static Calendar getCalendarService() throws IOException {
+		// Initialize the Google Calendar API client
+		try {
+			NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+			GoogleCredential credential = GoogleCredential.fromStream(new FileInputStream("credentials.json"))
+					.createScoped(Collections.singleton(CalendarScopes.CALENDAR));
+			Calendar service = new Calendar.Builder(httpTransport, JacksonFactory.getDefaultInstance(), credential)
+					.build();
+			return service;
+		} catch (IOException | GeneralSecurityException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 public static String generateMeetLink(String startTime) throws IOException {
 
     // Initialize the Google Calendar service
