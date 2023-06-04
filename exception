@@ -1,3 +1,20 @@
+
+function Card({ record }) {
+
+  return (
+
+    <div className="card">
+
+      <h3>{record.title}</h3>
+
+      {record.condition ? <p>{record.details}</p> : null}
+
+    </div>
+
+  );
+
+}
+
 function MyComponent() {
 
   const [data, setData] = useState([]);
