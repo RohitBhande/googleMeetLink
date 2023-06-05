@@ -1,3 +1,53 @@
+import React, { useState } from 'react';
+
+function MyComponent() {
+
+  const [htmlContent, setHtmlContent] = useState('');
+
+  const handleStoreHTML = () => {
+
+    const newHtmlContent = `
+
+      <h1>Hello, World!</h1>
+
+      <p>This is a paragraph.</p>
+
+      <ul>
+
+        <li>Item 1</li>
+
+        <li>Item 2</li>
+
+        <li>Item 3</li>
+
+      </ul>
+
+    `;
+
+    setHtmlContent(newHtmlContent);
+
+  };
+
+  return (
+
+    <div>
+
+      <button onClick={handleStoreHTML}>Store HTML Content</button>
+
+      <div style={{ whiteSpace: 'pre-wrap' }}>{htmlContent}</div>
+
+    </div>
+
+  );
+
+}
+
+
+
+
+
+
+
 function MyComponent() {
 
   const [htmlContent, setHtmlContent] = useState('');
