@@ -1,3 +1,38 @@
+function MyComponent() {
+
+  const [htmlContent, setHtmlContent] = useState('');
+
+  const handleButtonClick = () => {
+
+    const newContent = '<h1>Hello, World!</h1>'; // Example HTML content
+
+    setHtmlContent(newContent);
+
+  };
+
+  return (
+
+    <div>
+
+      <button onClick={handleButtonClick}>Set HTML Content</button>
+
+      <div dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
+
+    </div>
+
+  );
+
+}
+
+
+
+
+
+
+
+
+
+
 import org.springframework.mail.SimpleMailMessage;
 
 import org.springframework.mail.javamail.JavaMailSender;
