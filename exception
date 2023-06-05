@@ -32,6 +32,28 @@ public class EmailService {
 
 }
 
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class EmailController {
+
+    private final EmailService emailService;
+
+    public EmailController(EmailService emailService) {
+        this.emailService = emailService;
+    }
+
+    @PostMapping("/send-emails")
+    public void sendEmails(@RequestBody EmailData emailData) {
+        // Send email to mental counselor
+        emailService.sendEmail(emailData.getMentalCounselorEmail(), "New Email from User", emailData.getMessageToCounselor());
+
+        // Send email to user
+        emailService.sendEmail(emailData.getUserEmail(), "Confirmation Email", emailData.getMessageToUser());
+    }
+}
 
 
 
