@@ -1,5 +1,42 @@
 import React, { useState } from 'react';
 
+const MyComponent = () => {
+
+  const [state1, setState1] = useState('Hello');
+
+  const [state2, setState2] = useState('World');
+
+  return (
+
+    <div>
+
+      <button onClick={() => setState1('Goodbye')}>Update State 1</button>
+
+      <button onClick={() => setState2('React')}>Update State 2</button>
+
+      {state1 === 'Hello' && <p>{state2}</p>}
+
+      {state1 === 'Goodbye' && <p>{state2.toUpperCase()}</p>}
+
+    </div>
+
+  );
+
+};
+
+export default MyComponent;
+
+
+
+
+
+
+
+
+
+
+import React, { useState } from 'react';
+
 function MyComponent() {
 
   const [htmlContent, setHtmlContent] = useState('');
