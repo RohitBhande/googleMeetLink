@@ -1,0 +1,247 @@
+<dependencies>
+
+  <!-- Spring Boot Starter -->
+
+  <dependency>
+
+    <groupId>org.springframework.boot</groupId>
+
+    <artifactId>spring-boot-starter</artifactId>
+
+  </dependency>
+
+  <!-- Google Calendar API -->
+
+  <dependency>
+
+    <groupId>com.google.api-client</groupId>
+
+    <artifactId>google-api-client</artifactId>
+
+    <version>1.31.1</version>
+
+  </dependency>
+
+  <dependency>
+
+    <groupId>com.google.oauth-client</groupId>
+
+    <artifactId>google-oauth-client-jetty</artifactId>
+
+    <version>1.31.0</version>
+
+  </dependency>
+
+</dependencies>
+
+
+
+
+# Google Calendar API Configuration
+
+google.calendar.clientId=<your-client-id>
+
+google.calendar.clientSecret=<your-client-secret>
+
+google.calendar.redirectUri=<your-redirect-uri>
+
+
+
+
+
+
+import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
+
+import com.google.api.client.auth.oauth2.Credential;
+
+import com.google.api.client.auth.oauth2.CredentialStore;
+
+import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
+
+import com.google.api.client.extensions.java6.auth.oauth2.FileCredentialStore;
+
+import com.google.api.client.extensions.java6.auth.oauth2.VerificationCodeReceiver;
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
+
+import com.google.api.client.http.HttpTransport;
+
+import com.google.api.client.json.JsonFactory;
+
+import com.google.api.client.json.jackson2.JacksonFactory;
+
+import com.google.api.client.util.DateTime;
+
+import com.google.api.services.calendar.Calendar;
+
+import com.google.api.services.calendar.CalendarScopes;
+
+import com.google.api.services.calendar.model.*;
+
+import java.io.File;
+
+import java.io.IOException;
+
+import java.io.InputStreamReader;
+
+import java.util.Arrays;
+
+import java.util.Collections;
+
+public class GoogleCalendarIntegrationService {
+
+    private static final String APPLICATION_NAME = "Your Application Name";
+
+    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+
+    private static final String CREDENTIALS_FOLDER = "path/to/credential/folder";
+
+    private static final String TOKENS_DIRECTORY_PATH = CREDENTIALS_FOLDER + "/tokens";
+
+    private static final String CLIENT_SECRET_FILE_NAME = "client_secret.json";
+
+    public static void main(String[] args) {
+
+        try {
+
+            HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+
+            Credential credential = getCredentials(httpTransport);
+
+            Calendar service = new Calendar.Builder(httpTransport, JSON_FACTORY, credential)
+
+                    .setApplicationName(APPLICATION_NAME)
+
+                    .build();
+
+            Event event = createEvent();
+
+            String calendarId = "primary";
+
+            event = service.events().insert(calendarId, event).execute();
+
+            System.out.printf("Event created: %s\n", event.getHtmlLink());
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
+    private static Credential getCredentials(HttpTransport httpTransport) throws IOException {
+
+        File credentialsFolder = new File(CREDENTIALS_FOLDER);
+
+        if (!credentialsFolder.exists()) {
+
+            credentialsFolder.mkdirs();
+
+        }
+
+        File credentialsFile = new File(credentialsFolder, CLIENT_SECRET_FILE_NAME);
+
+        if (!credentialsFile.exists()) {
+
+            throw new RuntimeException("Please provide the client_secret.json file.");
+
+        }
+
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,
+
+                new InputStreamReader(GoogleCalendarIntegrationService.class.getClassLoader()
+
+                        .getResourceAsStream(CLIENT_SECRET_FILE_NAME)));
+
+        File tokenFolder = new File(TOKENS_DIRECTORY_PATH);
+
+        CredentialStore credentialStore = new FileCredentialStore(tokenFolder, JSON_FACTORY);
+
+        AuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+
+                httpTransport, JSON_FACTORY, clientSecrets,
+
+                Collections.singleton(CalendarScopes.CALENDAR))
+
+                .setCredentialStore(credentialStore)
+
+                .build();
+
+        VerificationCodeReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+
+        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+
+    }
+
+    private static Event createEvent() {
+
+        Event event = new Event()
+
+                .setSummary("Google I/O 2015")
+
+                .setLocation("800 Howard St., San Francisco, CA 94103")
+
+                .setDescription("A chance to hear more about Google's developer products.");
+
+        DateTime startDateTime = new DateTime("2015-05-28T09:00:00-07:00");
+
+        EventDateTime start = new EventDateTime()
+
+                .setDateTime(startDateTime)
+
+                .setTimeZone("America/Los_Angeles");
+
+        event.setStart(start);
+
+        DateTime endDateTime = new DateTime("2015-05-28T17:00:00-07:00");
+
+        EventDateTime end = new EventDateTime()
+
+                .setDateTime(endDateTime)
+
+                .setTimeZone("America/Los_Angeles");
+
+        event.setEnd(end);
+
+        String[] recurrence = new String[]{"RRULE:FREQ=DAILY;COUNT=2"};
+
+        event.setRecurrence(Arrays.asList(recurrence));
+
+        EventAttendee[] attendees = new EventAttendee[]{
+
+                new EventAttendee().setEmail("lpage@example.com"),
+
+                new EventAttendee().setEmail("sbrin@example.com")
+
+        };
+
+        event.setAttendees(Arrays.asList(attendees));
+
+        EventReminder[] reminderOverrides = new EventReminder[]{
+
+                new EventReminder().setMethod("email").setMinutes(24 * 60),
+
+                new EventReminder().setMethod("popup").setMinutes(10)
+
+        };
+
+        Event.Reminders reminders = new Event.Reminders()
+
+                .setUseDefault(false)
+
+                .setOverrides(Arrays.asList(reminderOverrides));
+
+        event.setReminders(reminders);
+
+        return event;
+
+    }
+
+}
