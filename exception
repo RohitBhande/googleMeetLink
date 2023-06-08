@@ -1,4 +1,65 @@
+<dependencies>
+
+    <!-- Spring Boot Starter Web -->
+
+    <dependency>
+
+        <groupId>org.springframework.boot</groupId>
+
+        <artifactId>spring-boot-starter-web</artifactId>
+
+    </dependency>
+
+    <!-- Spring Boot Starter Security -->
+
+    <dependency>
+
+        <groupId>org.springframework.boot</groupId>
+
+        <artifactId>spring-boot-starter-security</artifactId>
+
+    </dependency>
+
+    <!-- Spring Boot Starter OAuth2 Client -->
+
+    <dependency>
+
+        <groupId>org.springframework.boot</groupId>
+
+        <artifactId>spring-boot-starter-oauth2-client</artifactId>
+
+    </dependency>
+
+    <!-- Google API Client -->
+
+    <dependency>
+
+        <groupId>com.google.api-client</groupId>
+
+        <artifactId>google-api-client</artifactId>
+
+        <version>1.31.1</version>
+
+    </dependency>
+
+</dependencies>
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Server Port
+
+
+
 
 server.port=8080
 
