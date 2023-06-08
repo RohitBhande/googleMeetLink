@@ -1,3 +1,72 @@
+import com.google.api.client.util.store.FileDataStoreFactory;
+
+import com.google.api.services.calendar.CalendarScopes;
+
+import java.io.IOException;
+
+import java.nio.file.Files;
+
+import java.nio.file.Path;
+
+import java.nio.file.Paths;
+
+private static Credential getCredentials(HttpTransport httpTransport) throws IOException {
+
+    File credentialsFolder = new File(CREDENTIALS_FOLDER);
+
+    if (!credentialsFolder.exists()) {
+
+        credentialsFolder.mkdirs();
+
+    }
+
+    File tokenFolder = new File(TOKENS_DIRECTORY_PATH);
+
+    if (!tokenFolder.exists()) {
+
+        tokenFolder.mkdirs();
+
+    }
+
+    GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,
+
+            new InputStreamReader(GoogleCalendarIntegrationService.class.getClassLoader()
+
+                    .getResourceAsStream(CLIENT_SECRET_FILE_NAME)));
+
+    FileDataStoreFactory dataStoreFactory = new FileDataStoreFactory(tokenFolder);
+
+    DataStore<StoredCredential> dataStore = dataStoreFactory.getDataStore("google_calendar_credentials");
+
+    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+
+            httpTransport, JSON_FACTORY, clientSecrets,
+
+            Collections.singleton(CalendarScopes.CALENDAR))
+
+            .setDataStoreFactory(dataStoreFactory)
+
+            .setCredentialDataStore(dataStore)
+
+            .build();
+
+    VerificationCodeReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+
+    return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 <dependencies>
 
   <!-- Spring Boot Starter -->
