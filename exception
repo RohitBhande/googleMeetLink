@@ -1,3 +1,67 @@
+# Server Port
+
+server.port=8080
+
+# Google Calendar API credentials
+
+spring.security.oauth2.client.registration.google.client-id=YOUR_CLIENT_ID
+
+spring.security.oauth2.client.registration.google.client-secret=YOUR_CLIENT_SECRET
+
+spring.security.oauth2.client.registration.google.redirect-uri={baseUrl}/login/oauth2/code/{registrationId}
+
+spring.security.oauth2.client.provider.google.authorization-uri=https://accounts.google.com/o/oauth2/auth
+
+spring.security.oauth2.client.provider.google.token-uri=https://accounts.google.com/o/oauth2/token
+
+spring.security.oauth2.client.provider.google.user-info-uri=https://www.googleapis.com/oauth2/v3/userinfo
+
+spring.security.oauth2.client.provider.google.jwk-set-uri=https://www.googleapis.com/oauth2/v3/certs
+
+spring.security.oauth2.client.provider.google.issuer-uri=https://accounts.google.com
+
+# Google Calendar Event Configuration
+
+google.calendar.event.summary=Google I/O 2015
+
+google.calendar.event.location=800 Howard St., San Francisco, CA 94103
+
+google.calendar.event.description=A chance to hear more about Google's developer products.
+
+google.calendar.event.start-date-time=2015-05-28T09:00:00-07:00
+
+google.calendar.event.end-date-time=2015-05-28T17:00:00-07:00
+
+google.calendar.event.recurrence=RRULE:FREQ=DAILY;COUNT=2
+
+google.calendar.event.attendees[0].email=lpage@example.com
+
+google.calendar.event.attendees[1].email=sbrin@example.com
+
+google.calendar.event.reminder-overrides[0].method=email
+
+google.calendar.event.reminder-overrides[0].minutes=1440
+
+google.calendar.event.reminder-overrides[1].method=popup
+
+google.calendar.event.reminder-overrides[1].minutes=10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 
 import com.google.api.services.calendar.Calendar;
