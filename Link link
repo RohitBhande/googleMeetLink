@@ -1,3 +1,81 @@
+private static com.google.api.services.calendar.model.Event createEvent() {
+
+    com.google.api.services.calendar.model.Event event = new com.google.api.services.calendar.model.Event()
+
+            .setSummary("Google I/O 2015")
+
+            .setLocation("800 Howard St., San Francisco, CA 94103")
+
+            .setDescription("A chance to hear more about Google's developer products.");
+
+    DateTime startDateTime = new DateTime("2015-05-28T09:00:00-07:00");
+
+    com.google.api.services.calendar.model.EventDateTime start = new com.google.api.services.calendar.model.EventDateTime()
+
+            .setDateTime(startDateTime)
+
+            .setTimeZone("America/Los_Angeles");
+
+    event.setStart(start);
+
+    DateTime endDateTime = new DateTime("2015-05-28T17:00:00-07:00");
+
+    com.google.api.services.calendar.model.EventDateTime end = new com.google.api.services.calendar.model.EventDateTime()
+
+            .setDateTime(endDateTime)
+
+            .setTimeZone("America/Los_Angeles");
+
+    event.setEnd(end);
+
+    String[] recurrence = new String[]{"RRULE:FREQ=DAILY;COUNT=2"};
+
+    event.setRecurrence(Arrays.asList(recurrence));
+
+    com.google.api.services.calendar.model.EventAttendee[] attendees = new com.google.api.services.calendar.model.EventAttendee[]{
+
+            new com.google.api.services.calendar.model.EventAttendee().setEmail("lpage@example.com"),
+
+            new com.google.api.services.calendar.model.EventAttendee().setEmail("sbrin@example.com")
+
+    };
+
+    event.setAttendees(Arrays.asList(attendees));
+
+    com.google.api.services.calendar.model.EventReminder[] reminderOverrides = new com.google.api.services.calendar.model.EventReminder[]{
+
+            new com.google.api.services.calendar.model.EventReminder().setMethod("email").setMinutes(24 * 60),
+
+            new com.google.api.services.calendar.model.EventReminder().setMethod("popup").setMinutes(10)
+
+    };
+
+    com.google.api.services.calendar.model.Event.Reminders reminders = new com.google.api.services.calendar.model.Event.Reminders()
+
+            .setUseDefault(false)
+
+            .setOverrides(Arrays.asList(reminderOverrides));
+
+    event.setReminders(reminders);
+
+    return event;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import com.google.api.client.util.store.FileDataStoreFactory;
 
 import com.google.api.services.calendar.CalendarScopes;
