@@ -1,3 +1,256 @@
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+
+import com.google.api.services.calendar.Calendar;
+
+import com.google.api.services.calendar.model.*;
+
+import org.springframework.boot.SpringApplication;
+
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+
+import org.springframework.context.annotation.Bean;
+
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientId;
+
+import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
+
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
+
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+
+import org.springframework.web.bind.annotation.GetMapping;
+
+import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+
+import java.security.GeneralSecurityException;
+
+import java.util.Arrays;
+
+@SpringBootApplication
+
+@RestController
+
+@EnableOAuth2Sso
+
+public class GoogleCalendarApplication {
+
+    private static final String APPLICATION_NAME = "Your Application Name";
+
+    private static final String CLIENT_REGISTRATION_ID = "google";
+
+    private static final String CALENDAR_ID = "primary";
+
+    public static void main(String[] args) {
+
+        SpringApplication.run(GoogleCalendarApplication.class, args);
+
+    }
+
+    @Bean
+
+    public ClientRegistrationRepository clientRegistrationRepository() {
+
+        return new CustomClientRegistrationRepository();
+
+    }
+
+    @Bean
+
+    public OAuth2AuthorizedClientRepository authorizedClientRepository() {
+
+        return new CustomOAuth2AuthorizedClientRepository();
+
+    }
+
+    @GetMapping("/")
+
+    public String createEvent(@RegisteredOAuth2AuthorizedClient("google") OAuth2AuthorizedClient authorizedClient) {
+
+        try {
+
+            Calendar service = createCalendarService(authorizedClient.getAccessToken().getTokenValue());
+
+            Event event = new Event()
+
+                    .setSummary("Google I/O 2015")
+
+                    .setLocation("800 Howard St., San Francisco, CA 94103")
+
+                    .setDescription("A chance to hear more about Google's developer products.");
+
+            DateTime startDateTime = new DateTime("2015-05-28T09:00:00-07:00");
+
+            EventDateTime start = new EventDateTime()
+
+                    .setDateTime(startDateTime)
+
+                    .setTimeZone("America/Los_Angeles");
+
+            event.setStart(start);
+
+            DateTime endDateTime = new DateTime("2015-05-28T17:00:00-07:00");
+
+            EventDateTime end = new EventDateTime()
+
+                    .setDateTime(endDateTime)
+
+                    .setTimeZone("America/Los_Angeles");
+
+            event.setEnd(end);
+
+            String[] recurrence = new String[]{"RRULE:FREQ=DAILY;COUNT=2"};
+
+            event.setRecurrence(Arrays.asList(recurrence));
+
+            EventAttendee[] attendees = new EventAttendee[]{
+
+                    new EventAttendee().setEmail("lpage@example.com"),
+
+                    new EventAttendee().setEmail("sbrin@example.com"),
+
+            };
+
+            event.setAttendees(Arrays.asList(attendees));
+
+            EventReminder[] reminderOverrides = new EventReminder[]{
+
+                    new EventReminder().setMethod("email").setMinutes(24 * 60),
+
+                    new EventReminder().setMethod("popup").setMinutes(10),
+
+            };
+
+            Event.Reminders reminders = new Event.Reminders()
+
+                    .setUseDefault(false)
+
+                    .setOverrides(Arrays.asList(reminderOverrides));
+
+            event.setReminders(reminders);
+
+            event = service.events().insert(CALENDAR_ID, event).execute();
+
+            return "Event created: " + event.getHtmlLink();
+
+        } catch (IOException | GeneralSecurityException e) {
+
+            e.printStackTrace();
+
+            return "Error creating event";
+
+        }
+
+    }
+
+    private Calendar createCalendarService(String accessToken) throws IOException, GeneralSecurityException {
+
+        GoogleCredential credential = new GoogleCredential().setAccessToken(accessToken);
+
+        return new Calendar.Builder(credential.getTransport(), credential.getJsonFactory())
+
+                .setApplicationName(APPLICATION_NAME)
+
+                .build();
+
+    }
+
+    private static class CustomClientRegistrationRepository implements ClientRegistrationRepository {
+
+        @Override
+
+        public ClientRegistration findByRegistrationId(String registrationId) {
+
+            return ClientRegistration.withRegistrationId(CLIENT_REGISTRATION_ID)
+
+                    .clientId("YOUR_CLIENT_ID")
+
+                    .clientSecret("YOUR_CLIENT_SECRET")
+
+                    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+
+                    .redirectUriTemplate("{baseUrl}/login/oauth2/code/{registrationId}")
+
+                    .authorizationUri("https://accounts.google.com/o/oauth2/auth")
+
+                    .tokenUri("https://accounts.google.com/o/oauth2/token")
+
+                    .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
+
+                    .clientAuthenticationMethod(ClientAuthenticationMethod.BASIC)
+
+                    .scope("https://www.googleapis.com/auth/calendar")
+
+                    .jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
+
+                    .clientName("Google")
+
+                    .build();
+
+        }
+
+    }
+
+    private static class CustomOAuth2AuthorizedClientRepository implements OAuth2AuthorizedClientRepository {
+
+        @Override
+
+        public void saveAuthorizedClient(OAuth2AuthorizedClient authorizedClient, OAuth2AuthenticationToken authentication) {
+
+            // No need to save the authorized client
+
+        }
+
+        @Override
+
+        public void removeAuthorizedClient(String clientRegistrationId, OAuth2AuthenticationToken authentication) {
+
+            // No need to remove the authorized client
+
+        }
+
+        @Override
+
+        public OAuth2AuthorizedClient loadAuthorizedClient(String clientRegistrationId, OAuth2AuthenticationToken authentication) {
+
+            // Return null to let Spring use the ClientRegistrationRepository to load the client
+
+            return null;
+
+        }
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dependencies>
 
     <!-- Spring Boot Starter Web -->
