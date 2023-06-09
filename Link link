@@ -1,3 +1,115 @@
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+
+import com.google.api.client.http.HttpTransport;
+
+import com.google.api.client.http.javanet.NetHttpTransport;
+
+import com.google.api.client.json.JsonFactory;
+
+import com.google.api.client.json.jackson2.JacksonFactory;
+
+import com.google.api.services.calendar.Calendar;
+
+import org.springframework.beans.factory.annotation.Value;
+
+import org.springframework.context.annotation.Bean;
+
+import org.springframework.context.annotation.Configuration;
+
+import java.io.FileInputStream;
+
+import java.io.IOException;
+
+import java.util.Collections;
+
+@Configuration
+
+public class GoogleCalendarService {
+
+    @Value("${google.calendar.service-account-key}")
+
+    private String serviceAccountKeyPath;
+
+    private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+
+    private static final JsonFactory JSON_FACTORY = new JacksonFactory();
+
+    @Bean
+
+    public Calendar calendarService() throws IOException {
+
+        GoogleCredential credentials = GoogleCredential.fromStream(new FileInputStream(serviceAccountKeyPath))
+
+                .createScoped(Collections.singleton("https://www.googleapis.com/auth/calendar"));
+
+        return new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
+
+                .setApplicationName("Your Application Name")
+
+                .build();
+
+    }
+
+}
+
+
+
+
+import com.google.api.services.calendar.Calendar;
+
+import com.google.api.services.calendar.model.Event;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.HttpStatus;
+
+import org.springframework.web.bind.annotation.PostMapping;
+
+import org.springframework.web.bind.annotation.RequestBody;
+
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+
+public class EventController {
+
+    @Autowired
+
+    private Calendar calendarService;
+
+    @PostMapping("/events")
+
+    @ResponseStatus(HttpStatus.CREATED)
+
+    public Event createEvent(@RequestBody Event event) throws IOException {
+
+        return calendarService.events().insert("primary", event).execute();
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dependency>
 
     <groupId>org.springframework.boot</groupId>
