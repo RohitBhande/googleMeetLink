@@ -1,94 +1,249 @@
-<dependencies>
-    <!-- Spring Boot Starter -->
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter</artifactId>
-    </dependency>
+<dependency>
 
-    <!-- Google Calendar API -->
-    <dependency>
-        <groupId>com.google.api-client</groupId>
-        <artifactId>google-api-client</artifactId>
-        <version>1.30.10</version>
-    </dependency>
-    <dependency>
-        <groupId>com.google.oauth-client</groupId>
-        <artifactId>google-oauth-client-jetty</artifactId>
-        <version>1.30.10</version>
-    </dependency>
-    <dependency>
-        <groupId>com.google.apis</groupId>
-        <artifactId>google-api-services-calendar</artifactId>
-        <version>v3-rev325-1.30.10</version>
-    </dependency>
-</dependencies>
+    <groupId>org.springframework.boot</groupId>
+
+    <artifactId>spring-boot-starter-web</artifactId>
+
+</dependency>
+
+<dependency>
+
+    <groupId>com.google.api-client</groupId>
+
+    <artifactId>google-api-client</artifactId>
+
+    <version>1.32.1</version>
+
+</dependency>
+
+<dependency>
+
+    <groupId>com.google.oauth-client</groupId>
+
+    <artifactId>google-oauth-client-jetty</artifactId>
+
+    <version>1.32.1</version>
+
+</dependency>
+
+<dependency>
+
+    <groupId>com.google.apis</groupId>
+
+    <artifactId>google-api-services-calendar</artifactId>
+
+    <version>v3-rev305-1.25.0</version>
+
+</dependency>
 
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 
-private static com.google.api.services.calendar.model.Event createEvent() {
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 
-    com.google.api.services.calendar.model.Event event = new com.google.api.services.calendar.model.Event()
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 
-            .setSummary("Google I/O 2015")
+import com.google.api.client.http.HttpTransport;
 
-            .setLocation("800 Howard St., San Francisco, CA 94103")
+import com.google.api.client.json.JsonFactory;
 
-            .setDescription("A chance to hear more about Google's developer products.");
+import com.google.api.client.json.jackson2.JacksonFactory;
 
-    DateTime startDateTime = new DateTime("2015-05-28T09:00:00-07:00");
+import com.google.api.services.calendar.Calendar;
 
-    com.google.api.services.calendar.model.EventDateTime start = new com.google.api.services.calendar.model.EventDateTime()
+import com.google.api.services.calendar.CalendarScopes;
 
-            .setDateTime(startDateTime)
+import com.google.api.services.calendar.model.*;
 
-            .setTimeZone("America/Los_Angeles");
+import org.springframework.beans.factory.annotation.Value;
 
-    event.setStart(start);
+import org.springframework.web.bind.annotation.*;
 
-    DateTime endDateTime = new DateTime("2015-05-28T17:00:00-07:00");
+import javax.servlet.http.HttpServletRequest;
 
-    com.google.api.services.calendar.model.EventDateTime end = new com.google.api.services.calendar.model.EventDateTime()
+import javax.servlet.http.HttpServletResponse;
 
-            .setDateTime(endDateTime)
+import java.io.IOException;
 
-            .setTimeZone("America/Los_Angeles");
+import java.security.GeneralSecurityException;
 
-    event.setEnd(end);
+import java.util.Arrays;
 
-    String[] recurrence = new String[]{"RRULE:FREQ=DAILY;COUNT=2"};
+import java.util.Collections;
 
-    event.setRecurrence(Arrays.asList(recurrence));
+import java.util.List;
 
-    com.google.api.services.calendar.model.EventAttendee[] attendees = new com.google.api.services.calendar.model.EventAttendee[]{
+@RestController
 
-            new com.google.api.services.calendar.model.EventAttendee().setEmail("lpage@example.com"),
+@RequestMapping("/calendar")
 
-            new com.google.api.services.calendar.model.EventAttendee().setEmail("sbrin@example.com")
+public class CalendarController {
 
-    };
+    @Value("${google.clientId}")
 
-    event.setAttendees(Arrays.asList(attendees));
+    private String clientId;
 
-    com.google.api.services.calendar.model.EventReminder[] reminderOverrides = new com.google.api.services.calendar.model.EventReminder[]{
+    @Value("${google.clientSecret}")
 
-            new com.google.api.services.calendar.model.EventReminder().setMethod("email").setMinutes(24 * 60),
+    private String clientSecret;
 
-            new com.google.api.services.calendar.model.EventReminder().setMethod("popup").setMinutes(10)
+    @Value("${google.redirectUri}")
 
-    };
+    private String redirectUri;
 
-    com.google.api.services.calendar.model.Event.Reminders reminders = new com.google.api.services.calendar.model.Event.Reminders()
+    private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR);
 
-            .setUseDefault(false)
+    @GetMapping("/authorize")
 
-            .setOverrides(Arrays.asList(reminderOverrides));
+    public void authorize(HttpServletResponse response) throws IOException {
 
-    event.setReminders(reminders);
+        GoogleAuthorizationCodeFlow flow = createFlow();
 
-    return event;
+        String authorizationUrl = flow.newAuthorizationUrl().setRedirectUri(redirectUri).build();
+
+        response.sendRedirect(authorizationUrl);
+
+    }
+
+    @GetMapping("/callback")
+
+    public void callback(HttpServletRequest request, HttpServletResponse response) throws IOException, GeneralSecurityException {
+
+        GoogleAuthorizationCodeFlow flow = createFlow();
+
+        String code = request.getParameter("code");
+
+        GoogleTokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(redirectUri).execute();
+
+        GoogleCredential credential = flow.createAndStoreCredential(tokenResponse, null);
+
+        Calendar calendarService = buildCalendarService(credential);
+
+        // You can now use the 'calendarService' to interact with the user's calendar
+
+        response.sendRedirect("http://localhost:8080");
+
+    }
+
+    @GetMapping("/events")
+
+    public List<Event> getEvents() throws IOException, GeneralSecurityException {
+
+        GoogleCredential credential = getStoredCredential();
+
+        Calendar calendarService = buildCalendarService(credential);
+
+        String calendarId = "primary"; // Use "primary" for the user's primary calendar
+
+        Events events = calendarService.events().list(calendarId).execute();
+
+        return events.getItems();
+
+    }
+
+    @PostMapping("/events")
+
+    public Event createEvent(@RequestBody Event event) throws IOException, GeneralSecurityException {
+
+        GoogleCredential credential = getStoredCredential();
+
+        Calendar calendarService = buildCalendarService(credential);
+
+        String calendarId = "primary";
+
+        return calendarService.events().insert(calendarId, event).execute();
+
+    }
+
+    @PutMapping("/events/{eventId}")
+
+    public Event updateEvent(@PathVariable String eventId, @RequestBody Event event) throws IOException, GeneralSecurityException {
+
+        GoogleCredential credential = getStoredCredential();
+
+        Calendar calendarService = buildCalendarService(credential);
+
+        String calendarId = "primary";
+
+        return calendarService.events().update(calendarId, eventId, event).execute();
+
+    }
+
+    @DeleteMapping("/events/{eventId}")
+
+    public void deleteEvent(@PathVariable String eventId) throws IOException, GeneralSecurityException {
+
+        GoogleCredential credential = getStoredCredential();
+
+        Calendar calendarService = buildCalendarService(credential);
+
+        String calendarId = "primary";
+
+        calendarService.events().delete(calendarId, eventId).execute();
+
+    }
+
+    private GoogleAuthorizationCodeFlow createFlow() throws IOException, GeneralSecurityException {
+
+        HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+
+        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+
+        return new GoogleAuthorizationCodeFlow.Builder(httpTransport, jsonFactory, clientId, clientSecret, SCOPES)
+
+                .setAccessType("offline")
+
+                .build();
+
+    }
+
+    private GoogleCredential getStoredCredential() throws IOException, GeneralSecurityException {
+
+        HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+
+        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+
+        return new GoogleCredential.Builder()
+
+                .setTransport(httpTransport)
+
+                .setJsonFactory(jsonFactory)
+
+                .setClientSecrets(clientId, clientSecret)
+
+                .build()
+
+                .setAccessToken("USER_ACCESS_TOKEN") // Replace with the user's access token
+
+                .setRefreshToken("USER_REFRESH_TOKEN"); // Replace with the user's refresh token
+
+    }
+
+    private Calendar buildCalendarService(GoogleCredential credential) throws IOException, GeneralSecurityException {
+
+        HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+
+        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+
+        return new Calendar.Builder(httpTransport, jsonFactory, credential)
+
+                .setApplicationName("Your Application Name")
+
+                .build();
+
+    }
 
 }
+
+
+
+
+
+
+
+
 
 
 
