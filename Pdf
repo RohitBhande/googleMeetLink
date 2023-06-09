@@ -1,0 +1,49 @@
+import { Document, Page, pdfjs } from 'react-pdf';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+const pdfUrl = 'path/to/your/pdf/file.pdf';
+
+const [numPages, setNumPages] = useState(null);
+
+const pdfUrl = 'path/to/your/pdf/file.pdf';
+
+const [numPages, setNumPages] = useState(null);
+
+const onDocumentLoadSuccess = ({ numPages }) => {
+
+  setNumPages(numPages);
+
+};
+
+return (
+
+  <div>
+
+    <Document
+
+      file={pdfUrl}
+
+      onLoadSuccess={onDocumentLoadSuccess}
+
+      onLoadError={(error) => console.log('Error while loading PDF:', error)}
+
+    >
+
+      {Array.from(new Array(numPages), (el, index) => (
+
+        <Page
+
+          key={`page_${index + 1}`}
+
+          pageNumber={index + 1}
+
+          width={250}
+
+        />
+
+      ))}
+
+    </Document>
+
+  </div>
+
+);
