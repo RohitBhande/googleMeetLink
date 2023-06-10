@@ -1,3 +1,43 @@
+import React from 'react';
+
+import { Document, Page, pdfjs } from 'react-pdf';
+
+import samplePDF from './path/to/pdf/sample.pdf';
+
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
+const PDFViewer = () => {
+
+  return (
+
+    <div style={{ width: '500px', height: '600px' }}>
+
+      <Document file={samplePDF}>
+
+        <Page pageNumber={1} width={500} height={600} />
+
+      </Document>
+
+    </div>
+
+  );
+
+};
+
+export default PDFViewer;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 import React from 'react';
 
