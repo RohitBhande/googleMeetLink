@@ -1,3 +1,75 @@
+import React, { useState } from 'react';
+
+function MyComponent() {
+
+  const [selectedOption, setSelectedOption] = useState('');
+
+  const [displayedRecords, setDisplayedRecords] = useState([]);
+
+  const handleOptionChange = (event) => {
+
+    setSelectedOption(event.target.value);
+
+    // Call a function here to filter and update the displayed records based on the selected option
+
+    filterRecords(event.target.value);
+
+  };
+
+  const filterRecords = (selectedOption) => {
+
+    // Implement your logic to filter the records based on the selected option
+
+    // Update the "displayedRecords" state with the filtered records
+
+    // For example:
+
+    const filteredRecords = myRecords.filter(record => record.category === selectedOption);
+
+    setDisplayedRecords(filteredRecords);
+
+  };
+
+  return (
+
+    <div>
+
+      <select value={selectedOption} onChange={handleOptionChange}>
+
+        <option value="">Select an option</option>
+
+        <option value="option1">Option 1</option>
+
+        <option value="option2">Option 2</option>
+
+        <option value="option3">Option 3</option>
+
+      </select>
+
+      <div>
+
+        {displayedRecords.map(record => (
+
+          <div key={record.id}>{record.title}</div>
+
+        ))}
+
+      </div>
+
+    </div>
+
+  );
+
+}
+
+export default MyComponent;
+
+
+
+
+
+
+
 
 
 
