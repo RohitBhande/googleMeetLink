@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tips</title>
+
+    <!--font style-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Arvo&display=swap" rel="stylesheet" />
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet" />
+
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script src="https://kit.fontawesome.com/b70d731558.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/93c73bfd5a.js" crossorigin="anonymous"></script>
+
+    <!-- My Stylesheet -->
+    <link rel="stylesheet" href="./tips.css" type="text/css" />
+
+</head>
+
+<body>
+    
+    <!--main-->
+
+    <div class="mainSection">
+        <div class="tips">
+            <div id="tips_header">
+                <div class="container">
+                    <h1 id="tips_heading">Tips</h1>
+                </div>
+            </div>
+            <div class="tip-list pt-5 container-fluid">
+                <div class="row" data-aos="fade-up">
+                    <div class="info col col-lg-8 col-md-12 col-sm-12">
+                        <h3>Nurture healthy relationships</h3>
+                        <p class="para">
+                            Nurturing healthy relationships is essential for our mental health and overall well-being.
+                            Healthy relationships
+                            provide us with emotional support, a sense of belonging, and a safe space for sharing our
+                            thoughts and feelings.
+                            Effective communication is at the core of these relationships, involving active listening,
+                            honest and respectful
+                            expression, and openness to understanding different perspectives. Building trust and respect
+                            is fundamental in
+                            maintaining healthy relationships.
+                        </p>
+                    </div>
+                    <div class="common picture1 col col-lg-4 col-md-12 col-sm-12">
+                        <img class="round" src="./assets/Nurture Healthy.webp" alt="img" />
+                    </div>
+                </div>
+
+                <div class="odds row" data-aos="fade-up">
+                    <div class="info col col col-lg-8 col-md-12 col-sm-12">
+                        <h3>Limit screen time and establish boundaries</h3>
+                        <p class="para">
+                            When we spend excessive time on screens, we may neglect other important aspects of our
+                            lives, such as physical
+                            activity, social interactions, and self-care. By becoming aware of our screen time habits
+                            and setting specific
+                            goals, we can regain control over our digital consumption. This might involve allocating
+                            dedicated hours for
+                            work-related tasks, leisure activities, and social media use. By establishing clear
+                            boundaries, we can ensure that
+                            technology does not encroach upon our personal lives and negatively impact our mental
+                            well-being. By letting
+                            family members, friends, and colleagues know about our preferences and limits, we can manage
+                            their expectations
+                            and encourage a supportive environment that respects our need for screen-free time.
+                        </p>
+                    </div>
+                    <div class="common picture2 col col-lg-4 col-md-12 col-sm-12">
+                        <img src="./assets/screen-time-boundaries.jpg" alt="img" class="round" />
+                    </div>
+                </div>
+
+                <div class="row" data-aos="fade-up">
+                    <div class="info col col-lg-8 col-md-12 col-sm-12">
+                        <h3>Find alternative activities</h3>
+                        <p class="para">
+                            Engaging in alternative activities is a valuable mental health tip that can contribute to
+                            our overall well-being and
+                            help us find balance in our lives. By consciously seeking out activities that promote
+                            relaxation, joy, and personal
+                            growth, we can prioritize our mental health and cultivate a fulfilling lifestyle.Finding
+                            alternative activities
+                            involves exploring new hobbies, interests, and experiences that don't solely rely on screens
+                            or digital devices.
+                            By diversifying our activities, we can reduce dependency on technology and create a more
+                            well-rounded approach to
+                            our mental well-being.
+
+                        </p>
+                    </div>
+                    <div class="common picture1 col col-lg-4 col-md-12 col-sm-12">
+                        <img src="./assets/Alternative Activity.jfif" alt="img" class="round" />
+                    </div>
+                </div>
+
+                <div class="odds row" data-aos="fade-up">
+                    <div class="info col col-lg-8 col-md-12 col-sm-12">
+                        <h3>Be active</h3>
+                        <p class="para">
+                            Physical activity is defined as any bodily movement produced by
+                            skeletal muscles that requires energy expenditure. This includes
+                            exercise and activities undertaken while working, playing,
+                            carrying out household chores, travelling, and engaging in
+                            recreational pursuits. The amount of physical activity you need
+                            depends on your age group but adults aged 18-64 years should do
+                            at least 150 minutes of moderate-intensity physical activity
+                            throughout the week. Increase moderate-intensity physical
+                            activity to 300 minutes per week for additional health benefits.
+                        </p>
+                    </div>
+                    <div class="common picture1 col col-lg-4 col-md-12 col-sm-12">
+                        <img src="./assets/active.jpg" alt="img" class="round" />
+                    </div>
+                </div>
+
+                <div class="row" data-aos="fade-up">
+                    <div class="info col col-lg-8 col-md-12 col-sm-12">
+                        <h3>Check your blood pressure regularly</h3>
+                        <p class="para">
+                            Hypertension, or high blood pressure, is called a “silent
+                            killer”. This is because many people who have hypertension may
+                            not be aware of the problem as it may not have any symptoms. If
+                            left uncontrolled, hypertension can lead to heart, brain, kidney
+                            and other diseases. Have your blood pressure checked regularly
+                            by a health worker so you know your numbers. If your blood
+                            pressure is high, get the advice of a health worker. This is
+                            vital in the prevention and control of hypertension.
+                        </p>
+                    </div>
+                    <div class="common picture1 col col-lg-4 col-md-12 col-sm-12">
+                        <img src="./assets/bloodpressure.jpg" alt="img" class="round" />
+                    </div>
+                </div>
+
+                <div class="odds row" data-aos="fade-up">
+                    <div class="info col col-lg-8 col-md-12 col-sm-12">
+                        <h3>Practice stress management techniques</h3>
+                        <p class="para">
+                            Practicing stress management techniques is a crucial aspect of maintaining good mental
+                            health. Chronic stress can have a significant negative impact on our well-being, leading to
+                            anxiety, depression, and other health problems. By incorporating effective stress management
+                            strategies into our daily lives, we can reduce the harmful effects of stress and enhance our
+                            overall mental well-being.
+
+                            One key stress management technique is regular exercise. Physical activity releases
+                            endorphins, which are natural mood boosters, and helps to reduce stress levels. Engaging in
+                            activities such as walking, jogging, yoga, or dancing can provide a release of tension and
+                            promote a sense of relaxation and rejuvenation.
+
+                        </p>
+                    </div>
+                    <div class="common picture1 col col-lg-4 col-md-12 col-sm-12">
+                        <img src="./assets/Practicing stress management techniques.webp" alt="img" class="round" />
+                    </div>
+                </div>
+
+                <div class="row" data-aos="fade-up">
+                    <div class="info col col-lg-8 col-md-12 col-sm-12">
+                        <h3>Talk to someone you trust if you're feeling down</h3>
+                        <p class="para">
+                            Depression is a common illness worldwide with over 260 million
+                            people affected. Depression can manifest in different ways, but
+                            it might make you feel hopeless or worthless, or you might think
+                            about negative and disturbing thoughts a lot or have an
+                            overwhelming sense of pain. If you're going through this,
+                            remember that you are not alone. Talk to someone you trust such
+                            as a family member, friend, colleague or mental health
+                            professional about how you feel. If you feel that you are in
+                            danger of harming yourself, contact the National Center for
+                            Mental Health hotline at 1800-599-0019.
+                        </p>
+                    </div>
+                    <div class="common picture1 col col-lg-4 col-md-12 col-sm-12">
+                        <img src="./assets/Depression.jpg" alt="img" class="round" />
+                    </div>
+                </div>
+
+                <div class="odds row" data-aos="fade-up">
+                    <div class="info col col-lg-8 col-md-12 col-sm-12">
+                        <h3>Set realistic goals</h3>
+                        <p class="para">
+                            Setting realistic goals is a crucial aspect of maintaining good mental health. When it comes
+                            to goal setting, starting small is key. Breaking down larger goals into smaller, manageable
+                            steps not only prevents overwhelming feelings but also allows for a sense of progress and
+                            accomplishment along the way. By being specific about what you want to achieve and
+                            establishing measurable criteria, you provide clarity and focus to your goals, making it
+                            easier to stay motivated and track your progress.
+
+                            It's important to consider your limitations when setting goals. Take into account your
+                            current resources, time availability, and energy levels. Setting goals that are realistic
+                            and feasible within your circumstances increases the likelihood of success and prevents
+                            feelings of disappointment or failure.
+                            
+                        </p>
+                    </div>
+                    <div class="common picture8 col col-lg-4 col-md-12 col-sm-12">
+                        <img src="./assets/goals.png" alt="img" class="round" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<!-- JavaScript Libraries -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+
+<!-- Template Javascript -->
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+    AOS.init({
+        offset: 150,
+        duration: 1000
+    });
+</script>
+
+</html>
