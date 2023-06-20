@@ -1,0 +1,34 @@
+import React, { useState } from 'react';
+
+const YourComponent = () => {
+  const [userScore, setUserScore] = useState(0);
+
+  // Update the user score as needed
+  const handleScoreChange = (newScore) => {
+    setUserScore(newScore);
+  };
+
+  // Calculate the fill percentage based on user score
+  const fillPercentage = (userScore / bestScore) * 100;
+
+  return (
+    <div>
+      {/* Your image */}
+      <img src="path_to_your_image" alt="Your Image" />
+
+      {/* Overlay colored div */}
+      <div
+        className="overlay"
+        style={{ width: `${fillPercentage}%`, backgroundColor: 'red' }}
+      ></div>
+
+      {/* Display the user score */}
+      <p>User Score: {userScore}</p>
+
+      {/* Update the user score */}
+      <button onClick={() => handleScoreChange(userScore + 1)}>Increment Score</button>
+    </div>
+  );
+};
+
+export default YourComponent;
