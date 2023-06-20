@@ -1,3 +1,64 @@
+const Result = ({ score, totalQuestions }) => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      const ctx = canvasRef.current.getContext('2d');
+      new Chart(ctx, {
+        type: 'tachometer', // Use 'tachometer' chart type for speedometer-like visualization
+        data: {
+          labels: ['Score'],
+          datasets: [
+            {
+              data: [score],
+              backgroundColor: ['rgba(0, 123, 255, 0.2)'],
+              borderColor: ['rgba(0, 123, 255, 1)'],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              angleLines: {
+                display: false,
+              },
+              ticks: {
+                beginAtZero: true,
+                max: totalQuestions, // Set the max value of the speedometer scale
+              },
+              pointLabels: {
+                font: {
+                  size: 12,
+                },
+              },
+            },
+          },
+        },
+      });
+    }
+  }, [score, totalQuestions]);
+
+  return <canvas ref={canvasRef} />;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Over the past two weeks, how often have you felt down, depressed, or hopeless?
 a) Not at all
 b) Rarely
