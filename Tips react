@@ -1,3 +1,94 @@
+import React, { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
+const Tips = () => {
+  useEffect(() => {
+    AOS.init({ offset: 150, duration: 1000 });
+
+    const bootstrapCssLink = document.createElement('link');
+    bootstrapCssLink.href =
+      'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css';
+    bootstrapCssLink.rel = 'stylesheet';
+    bootstrapCssLink.integrity =
+      'sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC';
+    bootstrapCssLink.crossOrigin = 'anonymous';
+    document.head.appendChild(bootstrapCssLink);
+
+    const googleFontsLink = document.createElement('link');
+    googleFontsLink.href =
+      'https://fonts.googleapis.com/css2?family=Arvo&display=swap';
+    googleFontsLink.rel = 'stylesheet';
+    document.head.appendChild(googleFontsLink);
+
+    const fontAwesomeScript = document.createElement('script');
+    fontAwesomeScript.src =
+      'https://kit.fontawesome.com/your-font-awesome-kit.js';
+    fontAwesomeScript.crossOrigin = 'anonymous';
+    document.head.appendChild(fontAwesomeScript);
+  }, []);
+
+  return (
+    <div className="mainSection">
+      <div className="tips">
+        <div id="tips_header">
+          <div className="container">
+            <h1 id="tips_heading">Tips</h1>
+          </div>
+        </div>
+        <div className="tip-list pt-5 container-fluid">
+          <div className="row" data-aos="fade-up">
+            <div className="info col col-lg-8 col-md-12 col-sm-12">
+              <h3>Nurture healthy relationships</h3>
+              <p className="para">
+                Nurturing healthy relationships is essential for our mental health and overall well-being. Healthy relationships
+                provide us with emotional support, a sense of belonging, and a safe space for sharing our thoughts and feelings.
+                Effective communication is at the core of these relationships, involving active listening, honest and respectful
+                expression, and openness to understanding different perspectives. Building trust and respect is fundamental in
+                maintaining healthy relationships.
+              </p>
+            </div>
+            <div className="common picture1 col col-lg-4 col-md-12 col-sm-12">
+              <img className="round" src="./assets/Nurture Healthy.webp" alt="img" />
+            </div>
+          </div>
+          <div className="odds row" data-aos="fade-up">
+            {/* Rest of the code */}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Tips;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React from 'react';
 
 import { Helmet } from 'react-helmet';
