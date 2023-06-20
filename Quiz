@@ -1,3 +1,95 @@
+Over the past two weeks, how often have you felt down, depressed, or hopeless?
+a) Not at all
+b) Rarely
+c) Occasionally
+d) Frequently
+e) Almost constantly
+
+How frequently have you experienced a lack of interest or pleasure in activities you typically enjoy?
+a) Not at all
+b) Rarely
+c) Occasionally
+d) Frequently
+e) Almost constantly
+
+Have you had trouble falling asleep, staying asleep, or experiencing restful sleep?
+a) Not at all
+b) Rarely
+c) Occasionally
+d) Frequently
+e) Almost constantly
+
+How often have you felt tired, lacking energy, or fatigued?
+a) Not at all
+b) Rarely
+c) Occasionally
+d) Frequently
+e) Almost constantly
+
+Have you noticed a significant change in your appetite or weight?
+a) No change
+b) Some change (decrease or increase)
+c) Significant decrease
+d) Significant increase
+e) Fluctuating changes
+
+Do you often feel guilty or worthless?
+a) Not at all
+b) Rarely
+c) Occasionally
+d) Frequently
+e) Almost constantly
+
+How frequently have you experienced difficulty concentrating, making decisions, or remembering things?
+a) Not at all
+b) Rarely
+c) Occasionally
+d) Frequently
+e) Almost constantly
+
+Have you had thoughts of self-harm or suicide?
+a) No, not at all
+b) Rarely
+c) Occasionally
+d) Frequently
+e) Almost constantly
+
+How often have you felt nervous, anxious, or on edge?
+a) Not at all
+b) Rarely
+c) Occasionally
+d) Frequently
+e) Almost constantly
+
+Do you find yourself avoiding certain situations or places due to fear or anxiety?
+a) Never
+b) Rarely
+c) Sometimes
+d) Frequently
+e) Almost always
+
+Have you experienced physical symptoms such as headaches, stomachaches, or muscle tension due to stress or worry?
+a) Not at all
+b) Rarely
+c) Occasionally
+d) Frequently
+e) Almost constantly
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useState } from 'react';
 
 // Quiz data
