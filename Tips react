@@ -1,0 +1,86 @@
+import React from 'react';
+
+const Tips = () => {
+  return (
+    <div className="mainSection">
+      <div className="tips">
+        <div id="tips_header">
+          <div className="container">
+            <h1 id="tips_heading">Tips</h1>
+          </div>
+        </div>
+        <div className="tip-list pt-5 container-fluid">
+          <div className="row" data-aos="fade-up">
+            <div className="info col col-lg-8 col-md-12 col-sm-12">
+              <h3>Nurture healthy relationships</h3>
+              <p className="para">
+                Nurturing healthy relationships is essential for our mental health and overall well-being. Healthy relationships
+                provide us with emotional support, a sense of belonging, and a safe space for sharing our thoughts and feelings.
+                Effective communication is at the core of these relationships, involving active listening, honest and respectful
+                expression, and openness to understanding different perspectives. Building trust and respect is fundamental in
+                maintaining healthy relationships.
+              </p>
+            </div>
+            <div className="common picture1 col col-lg-4 col-md-12 col-sm-12">
+              <img className="round" src="./assets/Nurture Healthy.webp" alt="img" />
+            </div>
+          </div>
+
+          <div className="odds row" data-aos="fade-up">
+            <div className="info col col col-lg-8 col-md-12 col-sm-12">
+              <h3>Limit screen time and establish boundaries</h3>
+              <p className="para">
+                When we spend excessive time on screens, we may neglect other important aspects of our lives, such as physical
+                activity, social interactions, and self-care. By becoming aware of our screen time habits and setting specific
+                goals, we can regain control over our digital consumption. This might involve allocating dedicated hours for
+                work-related tasks, leisure activities, and social media use. By establishing clear boundaries, we can ensure that
+                technology does not encroach upon our personal lives and negatively impact our mental well-being. By letting
+                family members, friends, and colleagues know about our preferences and limits, we can manage their expectations
+                and encourage a supportive environment that respects our need for screen-free time.
+              </p>
+            </div>
+            <div className="common picture2 col col-lg-4 col-md-12 col-sm-12">
+              <img src="./assets/screen-time-boundaries.jpg" alt="img" className="round" />
+            </div>
+          </div>
+
+          <div className="row" data-aos="fade-up">
+            <div className="info col col-lg-8 col-md-12 col-sm-12">
+              <h3>Find alternative activities</h3>
+              <p className="para">
+                Engaging in alternative activities is a valuable mental health tip that can contribute to our overall well-being and
+                help us find balance in our lives. By consciously seeking out activities that promote relaxation, joy, and personal
+                growth, we can prioritize our mental health and cultivate a fulfilling lifestyle. Finding alternative activities
+                involves exploring new hobbies, interests, and experiences that don't solely rely on screens or digital devices.
+                By diversifying our activities, we can reduce dependency on technology and create a more well-rounded approach to
+                our mental well-being.
+              </p>
+            </div>
+            <div className="common picture1 col col-lg-4 col-md-12 col-sm-12">
+              <img src="./assets/Alternative Activity.jfif" alt=" with the cutoff of 4096 characters
+img" className="round" />
+</div>
+</div>
+</div>
+</div>
+</div>
+);
+};
+
+export default Tips;
+
+vbnet
+Copy code
+
+In this React component, I've used JSX syntax to represent the HTML structure. Each HTML element is converted into its corresponding JSX syntax, and the class attributes are replaced with the `className` attribute since `class` is a reserved keyword in JavaScript.
+
+Note that the images' source paths (`src`) in the `<img>` tags are relative paths. Make sure to provide the correct paths to your image files or update them accordingly.
+
+Remember to import the necessary CSS stylesheets and assets in your React component for the styles and images to work correctly.
+
+Feel free to modify the component according to your needs, and let me know if you have any further questions!
+
+
+
+
+
