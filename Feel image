@@ -1,3 +1,198 @@
+import React, { useEffect, useState, useRef } from 'react';
+import NavBar from '../NavBar/NavBar';
+import Chart from 'chart.js/auto';
+
+const quizData = [
+  {
+    question: 'Over the past two weeks, how often have you felt down, depressed, or hopeless?',
+    options: ['Not at all', 'Rarely', 'Occasionally', 'Frequently','Almost constantly'],
+    weights: [1, 2, 3, 4,5], // Weightage for each option
+  },
+  {
+    question: 'How frequently have you experienced a lack of interest or pleasure in activities you typically enjoy?',
+    options: ['Not at all', 'Rarely', 'Occasionally', 'Frequently','Almost constantly'],
+    weights: [1, 2, 3, 4,5], 
+  },
+  {
+    question: 'Have you had trouble falling asleep, staying asleep, or experiencing restful sleep?',
+    options: ['Not at all', 'Rarely', 'Occasionally', 'Frequently','Almost constantly'],
+    weights: [1, 2, 3, 4,5], 
+  },
+  {
+    question: 'How often have you felt tired, lacking energy, or fatigued?',
+    options: ['Not at all', 'Rarely', 'Occasionally', 'Frequently','Almost constantly'],
+    weights: [1, 2, 3, 4,5], 
+  },
+  {
+    question: 'Have you noticed a significant change in your appetite or weight?',
+    options: ['No change', 'Some change (decrease or increase)', 'Significant decrease', 'Significant increase','Fluctuating changes'],
+    weights: [1, 2, 3, 4,5], 
+  },
+  {
+    question: 'I feel I should be (or I am being) punished',
+    options: ['Never', 'Hardly ever', 'Some of the time', 'Most of the time','All the time'],
+    weights: [1, 2, 3, 4,5], 
+  },
+  {
+    question: 'Have you feel guilty',
+    options: ['Never', 'Hardly ever', 'Some time', 'Most of the time','All the time'],
+    weights: [1, 2, 3, 4,5], 
+  },
+  {
+    question: 'Have you get difficulty making decisions.',
+    options: ['Never', 'Hardly ever', 'Some time', 'Most of the time','All the time'],
+    weights: [1, 2, 3, 4,5], 
+  },
+  {
+    question: 'Have you tired and low on energy',
+    options: ['Never', 'Hardly ever', 'Some time', 'Most of the time','All the time'],
+    weights: [1, 2, 3, 4,5], 
+  },
+  {
+    question: 'Have you thoughts about ending your life in last 30 days',
+    options: ['Never', 'Hardly ever', 'Some time', 'Most of the time','All the time'],
+    weights: [1, 2, 3, 4,5], 
+  },
+  {
+    question: 'Have you feel like you are alone (or want to be alone)',
+    options: ['Never', 'Hardly ever', 'Some time', 'Most of the time','All the time'],
+    weights: [1, 2, 3, 4,5], 
+  },
+  // Add more questions...
+];
+
+// Question component
+const Question = ({ question, options, selectedAnswer, onAnswerSelect }) => {
+  const [num,setNum]=useState(0);
+    return (
+    <div style={{backgroundColor:'#F2E6D6'}}>
+    <div className='container' style={{height:'100vh'}}>
+    <NavBar/>
+    <div >
+      <h3 style={{marginTop:"12%"}}><p style={{fontSize:'50%'}}>{num}/11</p>{question}</h3>
+      <br/>
+      <div> &nbsp;
+        {options.map((option, index) => (
+          <button 
+            key={index}
+            className={`btn btn-success ${selectedAnswer === option ? 'selected' : ''}`}
+            style={{marginRight:'1.5%'}}
+            onClick={() => onAnswerSelect(option)}
+          >&nbsp;
+            {option}&nbsp;
+          </button>
+        ))}&nbsp;
+       {
+       useEffect(() => {
+        setNum((num)+1)
+       }, [options])
+       
+       }
+      </div>
+    </div>
+    </div>
+    </div>
+  );
+};
+
+// Quiz component
+const Quiz = ({ quizData }) => {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [userAnswers, setUserAnswers] = useState({});
+  const [showResult, setShowResult] = useState(false);
+
+  const handleAnswerSelect = (selectedAnswer) => {
+    setUserAnswers({ ...userAnswers, [currentQuestion]: selectedAnswer });
+    if (currentQuestion === quizData.length - 1) {
+      setShowResult(true);
+    } else {
+      setCurrentQuestion(currentQuestion + 1);
+    }
+  };
+
+  const calculateResult = () => {
+    let totalScore = 0;
+    for (let i = 0; i < quizData.length; i++) {
+      const userAnswer = userAnswers[i];
+      const weights = quizData[i].weights;
+      const answerIndex = quizData[i].options.indexOf(userAnswer);
+      const score = answerIndex !== -1 ? weights[answerIndex] : 0;
+      totalScore += score;
+    }
+    return totalScore;
+  };
+
+  const result = calculateResult();
+  return (
+    <div>
+      {showResult ? (
+        <Result score={result} totalQuestions={quizData.length} />
+      ) : (
+        <Question
+          question={quizData[currentQuestion].question}
+          options={quizData[currentQuestion].options}
+          selectedAnswer={userAnswers[currentQuestion]}
+          onAnswerSelect={handleAnswerSelect}
+        />
+      )}
+    </div>
+  );
+};
+
+// Result component
+const Result = ({ score, totalQuestions }) => {
+
+    const value=((score/(totalQuestions*5))*100);
+    const percentage= String(value).substring(0, 2);
+
+    return (
+    <div>
+        <div style={{backgroundColor:'#F2E6D6'}}>
+        <div className='container' style={{height:'100vh'}}>
+        <NavBar/>
+        <div style={{marginTop:"12%"}}>
+        <h3>Your Mental State</h3>
+        <p>Your current state: {percentage}</p>
+    </div>
+    </div>
+    </div>
+    </div>
+    
+   );
+};
+
+const Assessment = () => {
+  return (
+    <div>
+      <Quiz quizData={quizData} />
+    </div>
+  );
+};
+
+export default Assessment;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useState } from 'react';
 
 const YourComponent = () => {
