@@ -1,8 +1,10 @@
-Consider an application, StudentMangementSystem, that retrieves the student details from the database for the given student ID. For any invalid student ID, the application throws a necessary business exception that would be handled by the ControllerAdvice.
+Consider an application, ShoppingManagement, that allows the customers to order products online. If the customer searches for any product which is not in stock, then a custom response, 'Out of stock', along with HTTP_NOT FOUND status, should be returned. This exception should be handled using ExceptionHandler. The custom message can be set using the POJO 'ExceptionResponse'.
 
-Which of the following code snippets can be used to handle the exception 'StudentManagementException' thrown out in the above scenario?
+Whenever any invalid data is passed, this exception should be handled via Exceptional Handler only.
 
-" @ControllerAdvice public class ErrorHandlingController { @ExceptionHandler(StudentManagementException.class) public final ResponseEntity invalidEntry(Exception e) { // Return the response } } "
-" @ControllerAdvice @ExceptionHandler(StudentManagementException.class) public class ErrorHandlingController { public final ResponseEntity invalidEntry(Exception e) { // Return the response } } "
-"public class ErrorHandlingController { @ControllerAdvice(StudentManagementException.class) public final ResponseEntity invalidEntry(Exception e) { // Return the response } } "
-"public class ErrorHandlingController extends ControllerAdvice { public final ResponseEntity invalidEntry(Exception e) { // Return the response } } "
+Which of the following code snippets implements the above requirement?
+
+" @ExceptionHandler(ShoppingManagementException.class) public final ResponseEntity<ExceptionResponse> invalidData( ShoppingManagementException exception) { ExceptionResponse exceptionResponse = new ExceptionResponse(exception.getMessage(), ""OutOfStock""); return new ResponseEntity<Excep
+"""@ExceptionHandler(ShoppingManagementException.class) public final ResponseEntity<ExceptionResponse> invalidData( ShoppingManagementException exception) { ExceptionResponse exceptionResponse = new ExceptionResponse(exception.getMessage(), ""OutOfStock""); return exceptionResponse } """
+"""@ExceptionHandler(ShoppingManagementException.class) public final ResponseEntity<ExceptionResponse> invalidData( ShoppingManagementException exception) { ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.NOT_FOUND, ""OutOfStock""); return exceptionResponse; } """
+"""@ExceptionHandler(ShoppingManagementException.class) public final ResponseEntity invalidData( ShoppingManagementException exception) { ExceptionResponse exceptionResponse = exceptionResponse.set(exception,""OutOfStock""); return exceptionResponse } """
