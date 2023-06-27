@@ -1,3 +1,62 @@
+import React, { useState } from 'react';
+
+const FileDropdown = () => {
+  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedFiles, setSelectedFiles] = useState([]);
+
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+    setSelectedFiles([]);
+  };
+
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files);
+    setSelectedFiles(files);
+  };
+
+  return (
+    <div>
+      <label htmlFor="file-dropdown">Select an option:</label>
+      <select id="file-dropdown" value={selectedOption} onChange={handleOptionChange}>
+        <option value="">Select an option</option>
+        <option value="single">Single File</option>
+        <option value="multiple">Multiple Files</option>
+      </select>
+
+      {selectedOption === 'multiple' && (
+        <div>
+          <label htmlFor="file-upload">Select multiple files:</label>
+          <input type="file" id="file-upload" multiple onChange={handleFileChange} />
+        </div>
+      )}
+
+      {selectedFiles.length > 0 && (
+        <div>
+          <h3>Selected Files:</h3>
+          <ul>
+            {selectedFiles.map((file, index) => (
+              <li key={index}>{file.name}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default FileDropdown;
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useEffect, useState, useRef } from 'react';
 import NavBar from '../NavBar/NavBar';
 import Chart from 'chart.js/auto';
