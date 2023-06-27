@@ -1,8 +1,8 @@
-Consider a Spring Boot application, 'ABC', that returns the response in various formats. As a developer, you need to develop a code that returns the XML response format of the business requirement 'XYZ'.
+Consider an application, StudentMangementSystem, that retrieves the student details from the database for the given student ID. For any invalid student ID, the application throws a necessary business exception that would be handled by the ControllerAdvice.
 
-Which of the following code snippets will return the response in XML format?
+Which of the following code snippets can be used to handle the exception 'StudentManagementException' thrown out in the above scenario?
 
-"private static void getResponseAsXML() { HttpHeaders headers = new HttpHeaders(); headers.setAccept(returnType(new MediaType[] { MediaType.APPLICATION_XML })); //Implementation goes here } } }"
-"private static void getResponseAsXML() { HttpHeaders headers = new HttpHeaders(); headers.setReturnType((new MediaType[] { MediaType.APPLICATION_XML })); //Implementation goes here } } }"
-"private static void getResponseAsXML() { HttpHeaders headers = new HttpHeaders(); headers.setAccept(returnType( MediaType.APPLICATION_XML )); //Implementation goes here } } }"
-"private static void getResponseAsXML() { HttpHeaders headers = new HttpHeaders(); headers.setValue(returnType(new MediaType[] { MediaType.APPLICATION_XML })); //Implementation goes here } } }"
+" @ControllerAdvice public class ErrorHandlingController { @ExceptionHandler(StudentManagementException.class) public final ResponseEntity invalidEntry(Exception e) { // Return the response } } "
+" @ControllerAdvice @ExceptionHandler(StudentManagementException.class) public class ErrorHandlingController { public final ResponseEntity invalidEntry(Exception e) { // Return the response } } "
+"public class ErrorHandlingController { @ControllerAdvice(StudentManagementException.class) public final ResponseEntity invalidEntry(Exception e) { // Return the response } } "
+"public class ErrorHandlingController extends ControllerAdvice { public final ResponseEntity invalidEntry(Exception e) { // Return the response } } "
