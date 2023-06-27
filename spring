@@ -5,7 +5,7 @@ const DropdownList = () => {
     const fetchData = async () => {
       try {
         const response = await fetch('path/to/your/json/file.json');
-        const data = await response.json();
+        const data = await response.json(); // Read the response body and parse it as JSON
         const jsonKeys = Object.keys(data);
         setKeys(jsonKeys);
       } catch (error) {
