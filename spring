@@ -1,19 +1,33 @@
-@PostMapping
-public Order save(@PathVariable String user) {
-String url = "http://localhost:8081/api/cart/" + user;
-RestTemplate restTemplate = new RestTemplate(); // Micro Service inter Communication
-ResponseEntity<ItemLine[]> response = restTemplate.getForEntity(url, ItemLine[].class);
-ItemLine[] itemLines = response.getBody();
-double totalAmount = Arrays.stream(itemLines).mapToDouble(line -> line.getItem().getItemTotal()).sum();
-Order order = new Order();
-order.setDate(LocalDateTime.now());
-order.setAmount(totalAmount);
-Order savedOrder = orderRepository.save(order);
-restTemplate.delete(url);
-return savedOrder;
-}  from above code what is RestTemplate?
+npm install json-conflict
+import React, { useState, useEffect } from 'react';
+import jsonConflict from 'json-conflict';
 
-It is used to acccess rest end point urls of the same service
-It is used to access Data base methods of same service
-It is used to access request end point urls of different service
-Is used to link to Repository classes
+const DropdownList = () => {
+  const [keys, setKeys] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const json = await jsonConflict.readFile('path/to/your/json/file.json');
+        const jsonKeys = Object.keys(json);
+        setKeys(jsonKeys);
+      } catch (error) {
+        console.error('Error reading JSON file:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <select>
+      {keys.map((key, index) => (
+        <option key={index} value={key}>
+          {key}
+        </option>
+      ))}
+    </select>
+  );
+};
+
+export default DropdownList;
