@@ -1,23 +1,8 @@
-At the end of a cricket match, the scores of all the batsmen are recorded and maintained. Nancy was asked to develop a service that retrieves the score of individual batsmen from the system. And for all subsequent retrievals of the score of the same batsman, the score details have to be retrieved from cache. The above case should apply to all batsmen.
+Consider a Spring Boot application, 'ABC', that returns the response in various formats. As a developer, you need to develop a code that returns the XML response format of the business requirement 'XYZ'.
 
-Considering this as the Controller code:
+Which of the following code snippets will return the response in XML format?
 
-@RestController
-@RequestMapping("/cricket")
-public class CricketController {
- @Autowired
- CricketService cricketService;
-
- @GetMapping(value = "/batsman/{battingOrder}")
- public Temp getScore(@PathVariable("battingOrder") int battingOrder)
- {
-  return cricketService.getScoreOfBatsMan(battingOrder);
- }
-
-}
-Which of the following code snippets should be used by Nancy to satisfy the given requirement?
-
-Add @EnableCaching in primary Spring Configuration class that bootstraps and launches the application. This caches the scores, batsman names and all the fields. So, no need to cache for scores alone specifically.
-"public class CricketService { // code snippet to retrieve the score @Cacheable(""scores"") public Score getScoreOfBatsMan(int battingOrder) { List<Score> scores = getScoresFromRepository( battingOrder); return scores.get(battingOrder); } public List getScoresFromRepository(battingOrder)
-"1. Add @EnableCaching in primary Spring Configuration class that bootstraps and launches the application. 2. public class CricketService{ // code snippet to retrieve the score @Cacheable(""scores"") public Score getScoreOfBatsMan(int battingOrder) { List<Score> scores = getScoresFromReposit
-"1. Add @EnableCaching in primary Spring Configuration class that bootstraps and launches the application. 2. public class CricketService{ // code snippet to retrieve the score @Cacheable(""cachedScore"") public Score getScoreOfBatsMan(int battingOrder) { List<Score> scores = getScoresFromRe
+"private static void getResponseAsXML() { HttpHeaders headers = new HttpHeaders(); headers.setAccept(returnType(new MediaType[] { MediaType.APPLICATION_XML })); //Implementation goes here } } }"
+"private static void getResponseAsXML() { HttpHeaders headers = new HttpHeaders(); headers.setReturnType((new MediaType[] { MediaType.APPLICATION_XML })); //Implementation goes here } } }"
+"private static void getResponseAsXML() { HttpHeaders headers = new HttpHeaders(); headers.setAccept(returnType( MediaType.APPLICATION_XML )); //Implementation goes here } } }"
+"private static void getResponseAsXML() { HttpHeaders headers = new HttpHeaders(); headers.setValue(returnType(new MediaType[] { MediaType.APPLICATION_XML })); //Implementation goes here } } }"
