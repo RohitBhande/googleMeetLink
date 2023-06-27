@@ -1,11 +1,19 @@
-.
-"@PostMapping("/{id}/reviews")
-public Review saveReview(@PathVariable int id, @RequestBody Review review) {
-review.setProduct(ps.finfById(id));
-return rr.saveReview(review);
-} What is @RequestBo here? "
+@PostMapping
+public Order save(@PathVariable String user) {
+String url = "http://localhost:8081/api/cart/" + user;
+RestTemplate restTemplate = new RestTemplate(); // Micro Service inter Communication
+ResponseEntity<ItemLine[]> response = restTemplate.getForEntity(url, ItemLine[].class);
+ItemLine[] itemLines = response.getBody();
+double totalAmount = Arrays.stream(itemLines).mapToDouble(line -> line.getItem().getItemTotal()).sum();
+Order order = new Order();
+order.setDate(LocalDateTime.now());
+order.setAmount(totalAmount);
+Order savedOrder = orderRepository.save(order);
+restTemplate.delete(url);
+return savedOrder;
+}  from above code what is RestTemplate?
 
-@RequestBody is is used to accept a request from the client
-@RequestBody is used to send response back to client
-@RequestBody is used to Generate json response
-@RequestBody is used to accept request object body from the client
+It is used to acccess rest end point urls of the same service
+It is used to access Data base methods of same service
+It is used to access request end point urls of different service
+Is used to link to Repository classes
