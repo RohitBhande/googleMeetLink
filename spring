@@ -1,18 +1,15 @@
-npm install json-conflict
-import React, { useState, useEffect } from 'react';
-import jsonConflict from 'json-conflict';
-
 const DropdownList = () => {
   const [keys, setKeys] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const json = await jsonConflict.readFile('path/to/your/json/file.json');
-        const jsonKeys = Object.keys(json);
+        const response = await fetch('path/to/your/json/file.json');
+        const data = await response.json();
+        const jsonKeys = Object.keys(data);
         setKeys(jsonKeys);
       } catch (error) {
-        console.error('Error reading JSON file:', error);
+        console.error('Error fetching JSON data:', error);
       }
     };
 
