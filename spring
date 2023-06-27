@@ -1,8 +1,11 @@
-Consider an application, TrainTicketManagementSystem, that returns the booking status as 'CONFIRMED' or 'WAITING' when a booking request is submitted.
+.
+"@PostMapping("/{id}/reviews")
+public Review saveReview(@PathVariable int id, @RequestBody Review review) {
+review.setProduct(ps.finfById(id));
+return rr.saveReview(review);
+} What is @RequestBo here? "
 
-Which of the following REST Client TicketManagementClient will test if the String returned from the Service contains the status 'CONFIRMED' or 'WAITING' such that the business method getBookingStatus returns the Boolean true or false?
-
-"public class TicketManagementClient { public static void main(String args[]){ Boolean result=getBookingStatus(); } public static Boolean getBookingStatus(){ RestTemplate restTemplate = new RestTemplate(); String bookingStatus = restTemplate.getForObject(url to hit the service, String.class);
-"public class TicketManagementClient { public static void main(String args[]){ Boolean result=getBookingStatus(); } public static Boolean getBookingStatus(){ RestTemplateBuilder restTemplate = new RestTemplateBuilder(); String bookingStatus = restTemplate.getForObject(url to hit the request to
-"public class TicketManagementClient { public static void main(String args[]){ Boolean result=getBookingStatus(); } public static Boolean getBookingStatus(){ RestTemplate restTemplate = new RestTemplate(); String bookingStatus = restTemplate.getString(url to hit the request to service, String.c
-"public class TicketManagementClient { public static void main(String args[]){ Boolean result=getBookingStatus(); } public static Boolean getBookingStatus(){ RestTemplateBuilder restTemplate = restTemplate.getString(url to hit the request to service, String.class); } }"
+@RequestBody is is used to accept a request from the client
+@RequestBody is used to send response back to client
+@RequestBody is used to Generate json response
+@RequestBody is used to accept request object body from the client
