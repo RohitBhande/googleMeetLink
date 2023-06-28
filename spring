@@ -1,3 +1,75 @@
+const DropdownCheckboxList = () => {
+  // Define state to track the dropdown visibility and selected checkboxes
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+
+  // Array of options for the dropdown list
+  const options = [
+    { id: 1, label: 'Option 1' },
+    { id: 2, label: 'Option 2' },
+    { id: 3, label: 'Option 3' },
+    // Add more options as needed
+  ];
+
+  // Function to handle checkbox selection
+  const handleCheckboxChange = (event) => {
+    const checkboxValue = event.target.value;
+
+    // Check if the checkbox is already selected
+    const isSelected = selectedCheckboxes.includes(checkboxValue);
+
+    // Update the selected checkboxes state
+    if (isSelected) {
+      setSelectedCheckboxes(selectedCheckboxes.filter((item) => item !== checkboxValue));
+    } else {
+      setSelectedCheckboxes([...selectedCheckboxes, checkboxValue]);
+    }
+  };
+
+  // Function to handle dropdown visibility
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  // Function to render the checkbox list
+  const renderCheckboxList = () => {
+    return (
+      <div className="checkbox-list">
+        {options.map((option) => (
+          <label key={option.id}>
+            <input
+              type="checkbox"
+              value={option.label}
+              checked={selectedCheckboxes.includes(option.label)}
+              onChange={handleCheckboxChange}
+            />
+            {option.label}
+          </label>
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <div className="dropdown-checkbox-list">
+      <button className="dropdown-button" onClick={toggleDropdown}>
+        Select Options
+      </button>
+      {isOpen && renderCheckboxList()}
+    </div>
+  );
+};
+
+export default DropdownCheckboxList;
+
+
+
+
+
+
+
+
+
 import React, { useState } from 'react';
 import data from './data.json'; // Import the JSON file
 
