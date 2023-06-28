@@ -25,6 +25,61 @@ const MultiDropdown = () => {
             onChange={handleItemChange}
           />
           <label>{item.name}</label>
+          {selectedItems.includes(item.id) && (
+            <div>
+              {item.options.map((option) => (
+                <div key={option.id}>
+                  <input
+                    type="checkbox"
+                    value={option.id}
+                    checked={selectedItems.includes(option.id)}
+                    onChange={handleItemChange}
+                  />
+                  <label>{option.name}</label>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default MultiDropdown;
+
+
+
+
+
+
+import React, { useState } from 'react';
+import data from './data.json'; // Import the JSON file
+
+const MultiDropdown = () => {
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  const handleItemChange = (e) => {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      setSelectedItems((prevSelectedItems) => [...prevSelectedItems, value]);
+    } else {
+      setSelectedItems((prevSelectedItems) => prevSelectedItems.filter((item) => item !== value));
+    }
+  };
+
+  return (
+    <div>
+      {data.map((item) => (
+        <div key={item.id}>
+          <input
+            type="checkbox"
+            value={item.id}
+            checked={selectedItems.includes(item.id)}
+            onChange={handleItemChange}
+          />
+          <label>{item.name}</label>
         </div>
       ))}
     </div>
