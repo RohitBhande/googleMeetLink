@@ -1,0 +1,76 @@
+<!-- Excel file manipulation -->
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi</artifactId>
+    <version>4.1.2</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml</artifactId>
+    <version>4.1.2</version>
+</dependency>
+
+<!-- MySQL database -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+</dependency>
+
+
+
+
+@Service
+public class ExcelService {
+    
+    public void uploadAndStoreData(MultipartFile file) throws IOException {
+        // Read the Excel file and extract data
+        Workbook workbook = new XSSFWorkbook(file.getInputStream());
+        Sheet sheet = workbook.getSheetAt(0); // Assuming data is in the first sheet
+        
+        // Iterate over rows and process the data
+        for (Row row : sheet) {
+            // Extract data from each cell in the row and store it in the database
+            // You can use row.getCell(columnIndex) to access data from each cell
+            
+            // Example: Assuming the data is in columns A and B
+            String columnAData = row.getCell(0).getStringCellValue();
+            String columnBData = row.getCell(1).getStringCellValue();
+            
+            // Store the data in the database using a repository
+        }
+        
+        workbook.close();
+    }
+}
+
+
+
+
+
+@Service
+public class ExcelService {
+    
+    public void uploadAndStoreData(MultipartFile file) throws IOException {
+        // Read the Excel file and extract data
+        Workbook workbook = new XSSFWorkbook(file.getInputStream());
+        Sheet sheet = workbook.getSheetAt(0); // Assuming data is in the first sheet
+        
+        // Iterate over rows and process the data
+        for (Row row : sheet) {
+            // Extract data from each cell in the row and store it in the database
+            // You can use row.getCell(columnIndex) to access data from each cell
+            
+            // Example: Assuming the data is in columns A and B
+            String columnAData = row.getCell(0).getStringCellValue();
+            String columnBData = row.getCell(1).getStringCellValue();
+            
+            // Store the data in the database using a repository
+        }
+        
+        workbook.close();
+    }
+}
