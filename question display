@@ -10,6 +10,125 @@ export default function Question() {
 
   const [data, setQuestion] = useState([]);
   const [subject, setSubject] = useState(state);
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
+  const [result, setResult] = useState(null);
+
+  useEffect(() => {
+    fetchMCcard();
+  }, ['']);
+
+  const fetchMCcard = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/ques/findOneQ/${subject}`);
+      setQuestion(response.data);
+      setSelectedAnswers(new Array(response.data.length).fill(null));
+    } catch (error) {
+      toast.error('Server error!');
+    }
+  };
+
+  const handleAnswerChange = (questionIndex, selectedOption) => {
+    const updatedAnswers = [...selectedAnswers];
+    updatedAnswers[questionIndex] = selectedOption;
+    setSelectedAnswers(updatedAnswers);
+  };
+
+  const handleSubmit = () => {
+    let score = 0;
+    data.forEach((question, index) => {
+      if (selectedAnswers[index] === question.answer) {
+        score++;
+      }
+    });
+    const percentageScore = (score / data.length) * 100;
+    setResult(percentageScore);
+  };
+
+  return (
+    <div className="container-xxl">
+      <div>
+        {data.map((item, index) => (
+          <div key={index}>
+            <h3>{item.question}</h3>
+            <ul>
+              <li>
+                <input
+                  type="radio"
+                  name={`answer-${index}`}
+                  value="A"
+                  onChange={() => handleAnswerChange(index, 'A')}
+                  required
+                />
+                {item.optionA}&nbsp;&nbsp;
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  name={`answer-${index}`}
+                  value="B"
+                  onChange={() => handleAnswerChange(index, 'B')}
+                  required
+                />
+                {item.optionB}&nbsp;&nbsp;
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  name={`answer-${index}`}
+                  value="C"
+                  onChange={() => handleAnswerChange(index, 'C')}
+                  required
+                />
+                {item.optionC}&nbsp;&nbsp;
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  name={`answer-${index}`}
+                  value="D"
+                  onChange={() => handleAnswerChange(index, 'D')}
+                  required
+                />
+                {item.optionD}&nbsp;&nbsp;
+              </li>
+            </ul>
+          </div>
+        ))}
+      </div>
+      <button type="submit" onClick={handleSubmit}>
+        Submit Test
+      </button>
+      {result !== null && <p>Your score: {result}%</p>}
+    </div>
+  );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useLocation } from 'react-router-dom';
+import './Question.css';
+
+export default function Question() {
+  const location = useLocation();
+  const state = location.state.sub;
+
+  const [data, setQuestion] = useState([]);
+  const [subject, setSubject] = useState(state);
   const [count, setCount] = useState(0);
 
   useEffect(() => {
