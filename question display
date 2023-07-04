@@ -1,0 +1,124 @@
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useLocation } from 'react-router-dom';
+import './Question.css'
+
+export default function Question() {
+
+    const location=useLocation();
+      const state=location.state.sub;
+
+     // console.log("Subject Value:"+state.sub);
+    const [data, setQuestion] = useState([]);
+    const [subject, setSubject] = useState(state);
+      
+
+
+    useEffect(() => {
+        fetchMCcard();
+      }, [''])
+
+    const fetchMCcard = async () => {
+    try {
+    const response = await axios.get(`http://localhost:8080/ques/findOneQ/${subject}`);
+    setQuestion(response.data);
+    //console.log(response.data[0])
+    } catch (error) {
+    toast.error("Server error !");
+    }
+    };
+    const [count,setCount]=useState(0);
+    function checkAnswer(index,question,selectedAns){
+    // console.log(question);
+        console.log("Index"+index);
+
+
+    // console.log("Selected Answer:"+selectedAns);
+    // console.log("Correct Answer:"+data[index].answer);
+    //console.log("marked question:"+data[index].question);
+    if(selectedAns === data[index].answer){
+      setCount(count+1);
+    }
+
+
+    //console.log(index);
+    }
+
+
+    const handleAnswerChange = (question,questionIndex, selectedOption) => {
+    // console.log("QI"+questionIndex)
+      //console.log(question)
+
+      checkAnswer(questionIndex,question,selectedOption);
+    setQuestion((prevQuestions) => {
+    const updatedQuestions = [...prevQuestions];
+    //console.log("Question:"+prevQuestions);
+    updatedQuestions[questionIndex].answer = selectedOption;
+    //console.log(selectedOption);
+    return updatedQuestions;
+    });
+    };
+
+    const handleSubmit = () => {
+    // Handle the submission logic here using the selected answers
+    console.log("final count::" +count );
+    };
+
+    return (
+    <div className="container-xxl">
+    <div>
+    {data.map((item, index) => (
+    <div key={index}>
+    <h3>{item.question}</h3>
+    <ul>
+    <li>
+    <input
+    type="radio"
+    name={`answer-${index}`}
+    value="A"
+    onChange={() => handleAnswerChange(item.question,index, item.optionA)}
+    required
+    />
+    {item.optionA}&nbsp;&nbsp;
+    </li>
+    <li>
+    <input
+    type="radio"
+    name={`answer-${index}`}
+    value="B"
+    onChange={() => handleAnswerChange(item.question,index, item.optionB)}
+    required
+    />
+    {item.optionB}&nbsp;&nbsp;
+    </li>
+    <li>
+    <input
+    type="radio"
+    name={`answer-${index}`}
+    value="C"
+    onChange={() => handleAnswerChange(item.question,index, item.optionC)}
+    required
+    />
+    {item.optionC}&nbsp;&nbsp;
+    </li>
+    <li>
+    <input
+    type="radio"
+    name={`answer-${index}`}
+    value="D"
+    onChange={() => handleAnswerChange(item.question,index, item.optionD)}
+    required
+    />
+    {item.optionD}&nbsp;&nbsp;
+    </li>
+    </ul>
+    </div>
+    ))}
+    </div>
+    <button type="submit" onClick={handleSubmit}>
+    Submit Test
+    </button>
+    </div>
+    );
+    }
