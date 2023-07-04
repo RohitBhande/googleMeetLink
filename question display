@@ -1,3 +1,114 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useLocation } from 'react-router-dom';
+import './Question.css';
+
+export default function Question() {
+  const location = useLocation();
+  const state = location.state.sub;
+
+  const [data, setQuestion] = useState([]);
+  const [subject, setSubject] = useState(state);
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    fetchMCcard();
+  }, ['']);
+
+  const fetchMCcard = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/ques/findOneQ/${subject}`);
+      setQuestion(response.data);
+    } catch (error) {
+      toast.error('Server error!');
+    }
+  };
+
+  const checkAnswer = (index, selectedAns) => {
+    if (selectedAns === data[index].answer) {
+      setCount(count + 1);
+    }
+  };
+
+  const handleAnswerChange = (index, selectedOption) => {
+    checkAnswer(index, selectedOption);
+  };
+
+  const handleSubmit = () => {
+    // Calculate the result based on the count of correct answers
+    const result = (count / data.length) * 100;
+    console.log('Result:', result);
+    // You can store the result or display it in any way you want
+  };
+
+  return (
+    <div className="container-xxl">
+      <div>
+        {data.map((item, index) => (
+          <div key={index}>
+            <h3>{item.question}</h3>
+            <ul>
+              <li>
+                <input
+                  type="radio"
+                  name={`answer-${index}`}
+                  value="A"
+                  onChange={() => handleAnswerChange(index, 'A')}
+                  required
+                />
+                {item.optionA}&nbsp;&nbsp;
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  name={`answer-${index}`}
+                  value="B"
+                  onChange={() => handleAnswerChange(index, 'B')}
+                  required
+                />
+                {item.optionB}&nbsp;&nbsp;
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  name={`answer-${index}`}
+                  value="C"
+                  onChange={() => handleAnswerChange(index, 'C')}
+                  required
+                />
+                {item.optionC}&nbsp;&nbsp;
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  name={`answer-${index}`}
+                  value="D"
+                  onChange={() => handleAnswerChange(index, 'D')}
+                  required
+                />
+                {item.optionD}&nbsp;&nbsp;
+              </li>
+            </ul>
+          </div>
+        ))}
+      </div>
+      <button type="submit" onClick={handleSubmit}>
+        Submit Test
+      </button>
+    </div>
+  );
+}
+
+
+
+
+
+
+
+
+
+
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { toast } from 'react-toastify';
