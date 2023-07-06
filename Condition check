@@ -1,5 +1,46 @@
+
+import React, { useState, useEffect } from 'react';
+
+const MyComponent = () => {
+  const [originalArray, setOriginalArray] = useState([]);
+  const [filteredSet, setFilteredSet] = useState(new Set());
+
+  useEffect(() => {
+    // Populate the originalArray with data (e.g., fetching data from an API)
+    // setOriginalArray([...]); // Update the originalArray here
+  }, []);
+
+  useEffect(() => {
+    const filteredArray = originalArray.filter(item => /* Your condition here */);
+    const newFilteredSet = new Set(filteredArray);
+    setFilteredSet(newFilteredSet);
+  }, [originalArray]);
+
+  return (
+    <div>
+      {/* Render your component using the filteredSet */}
+    </div>
+  );
+};
+
+export default MyComponent;
+
+
+
+
+
+
+
+
+
 const checkNumberInDatabase = (number) => {
-  // Make the GET request to your backend API
+
+
+
+
+
+
+// Make the GET request to your backend API
   axios.get(`/api/checkNumber?number=${number}`)
     .then(response => {
       const isNumberPresent = response.data.exists;
