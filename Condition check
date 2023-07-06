@@ -1,0 +1,18 @@
+const checkNumberInDatabase = (number) => {
+  // Make the GET request to your backend API
+  axios.get(`/api/checkNumber?number=${number}`)
+    .then(response => {
+      const isNumberPresent = response.data.exists;
+      if (isNumberPresent) {
+        // If the number is already present, generate a new number and check again
+        const newNumber = getRandomNumber();
+        checkNumberInDatabase(newNumber);
+      } else {
+        // If the number is not present, execute the remaining code
+        executeRemainingCode(number);
+      }
+    })
+    .catch(error => {
+      // Handle the error
+    });
+};
